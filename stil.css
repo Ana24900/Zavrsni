@@ -1,0 +1,32 @@
+#box{
+    display: grid;
+    grid-template-areas:
+    " h h h"
+    " a b c";
+    grid-template-rows:auto auto auto;
+    grid-template-columns: auto,auto;
+}
+#inf{
+    display: grid;
+    grid-area: a;
+    place-content: center;
+    background-color: bisque;
+    border:2px solid #444c51;
+    margin: 10px;
+}
+#infiteh{
+    display: grid;
+    grid-area: b;
+    place-content: center;
+    background-color: bisque;
+    border:2px solid #444c51;
+    margin: 10px;
+}
+#baze{
+    display: grid;
+    grid-area: c;
+    place-content: center;
+    background-color: bisque;
+    border:2px solid #444c51;
+    margin: 10px;
+}
