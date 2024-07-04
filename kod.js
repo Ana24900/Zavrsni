@@ -1,3 +1,4 @@
+
 var lista=[];
 var inf=[];
 var infiteh=[];
@@ -33,51 +34,117 @@ document.getElementById("razvrstaj").addEventListener("click",(e)=> {
     e.preventDefault();
 
     for(let i=0;i<lista.length;i++){
-        if(lista[i].izbor[0].naziv=="Nastavnički informatika"){
+        if(lista[i].izbor[0].naziv=="Nastavnički informatika" ){
             if(inf.length<2){
-                lista[i].primljena=true;
                 inf.push(lista[i]);
+                lista[i].primljena=true;
+                console.log("Primljen na inf "+lista[i]);
             }
             else{
-                let minst=inf[0];
-                let minindex=0;
                 for(let j=0;j<inf.length;j++){
-                    if(minst.izbor[0].bodovi>=inf[j].izbor[0].bodovi){
-                        minst=inf[j];
-                        minindex=j;
-                    }
-                }
-                if(lista[i].izbor[0].bodovi>=minst.izbor[0].bodovi){
-                    console.log(minst);
-                    inf[minindex]=lista[i];
-                    if(minst.izbor[1]=="Nastavnički informatika i tehnika"){
-                        if(infiteh.length<2)
-                        {
-                            infiteh.push(minst);
+                    if(lista[i].izbor[0].bodovi>=inf[j].izbor[0].bodovi){
+                        let st=inf[j];
+                        inf[j]=lista[i];
+                        lista[i].primljena=true;
+                        let ind=0;
+                        for(let c=0;c<lista.length;c++){
+                            if(st==lista[c]){
+                                ind=c;
+                                lista[c].primljena=false;
+                            }
                         }
-                        else{
-                            let minbrit=infiteh[0];
-                            let minindexit=0;
-                            for(let j=0;j<infiteh.length;j++){
-                                if(minbrit.izbor[0].bodovi>infiteh[j].izbor[0].bodovi){
-                                    minst=infiteh[j];
-                                    minindexit=j;
+                        console.log(lista[i].ime+"izgurao "+st.ime);
+                        if(st.izbor[1].naziv=="Nastavnički informatika i tehnika"){
+                            if(infiteh.length<2){
+                                infiteh.push(st);
+                                lista[ind].primljena=true;
+                                console.log(" primljen je na infiteh "+st.ime);
+                            }
+                            else{
+                                for(let k=0;k<infiteh.length;k++){
+                                    if(st.izbor[1].bodovi>=infiteh[k].izbor[1].bodovi){
+                                        infiteh[k]=st;
+                                        lista[ind].primljena=true;
+
+                                    }
+                                    // else{
+                                    //     baze.push(st);
+                                    // }
+                                }
+                         }
+                        }
+                        else if(st.izbor[1].naziv=="Informatika baze podataka"){
+                            if(baze.length<2){
+                                baze.push(st);
+                                lista[ind].primljena=true;
+                                console.log("primljen je na baze "+st);
+                            }
+                            else{
+                                for(let h=0;h<baze.length;h++){
+                                    if(st.izbor[1].bodovi>=baze[h].izbor[1].bodovi){
+                                        baze[h]=st;
+                                        lista[ind].primljena=true;
+                                    }
+                                    // else{
+                                    //     infiteh.push(st);
+                                    // }
                                 }
                             }
-                            if(minst.izbor[0].bodovi>=minbrit.izbor[0].bodovi){
-                                infiteh[minindexit]=minst;
-                            }
                         }
                     }
+                    else if(lista[i].primljena==false){
+                        console.log("koliko puta vamo ulazi");
+                        if(lista[i].izbor[1].naziv=="Nastavnički informatika i tehnika"){
+                            if(infiteh.length<2){
+                                infiteh.push(lista[i]);
+                                lista[i].primljena=true;
+                                console.log("primljen je na infiteh "+lista[i]);
+                            }
+                            else{
+                                for(let k=0;k<infiteh.length;k++){
+                                    if(lista[i].izbor[0].bodovi>=infiteh[k].izbor[0].bodovi){
+                                        infiteh[k]=lista[i];
+                                        lista[i].primljena=true;
+
+                                    }
+                                    // else{
+                                    //     baze.push(lista[i]);
+                                    // }
+                                }
+                         }
+                        
+                        }
+                        else if(lista[i].izbor[1].naziv=="Informatika baze podataka"){
+                            if(baze.length<2){
+                                baze.push(lista[i]);
+                                lista[i].primljena=true;
+
+                                console.log("primljen je na baze "+lista[i]);
+                            }
+                            else{
+                                for(let h=0;h<baze.length;h++){
+                                    if(lista[i].izbor[0].bodovi>=baze[h].izbor[0].bodovi){
+                                        baze[h]=lista[i];
+                                        lista[i].primljena=true;
+
+                                    }
+                                    // else{
+                                    //     infiteh.push(lista[i]);
+                                    // }
+                                }
+                            }
+                        }
+                    } 
+                  
+                    
                 }
-                
-            
             }
         }
-        
-    }
+    } 
+
     console.log(infiteh);
     console.log(inf);
+    console.log(baze);
     const listinf=document.getElementById("inf");
     for(let i=0;i<inf.length;i++){
         let novi=document.createElement("li");
@@ -90,4 +157,11 @@ document.getElementById("razvrstaj").addEventListener("click",(e)=> {
         novi.innerHTML+=infiteh[i].ime+" "+infiteh[i].prezime+" "+infiteh[i].studijski_smijer+"\n";
         listinfiteh.appendChild(novi);
     }
+    const listbaze=document.getElementById("baze");
+    for(let i=0;i<baze.length;i++){
+        let novi=document.createElement("li");
+        novi.innerHTML+=baze[i].ime+" "+baze[i].prezime+" "+baze[i].studijski_smijer+"\n";
+        listbaze.appendChild(novi);
+    }
+    
 })

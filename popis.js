@@ -7,9 +7,9 @@ module.exports = [
       "studijski_smijer": "Informatika",
       "primljena": false,
       "izbor":[
-        { "naziv":"Nastavnički informatika", "bodovi": 56},
-        { "naziv":"Nastavnički informatika i tehnika","bodovi": 76},
-        { "naziv":"Informatika baze podataka","bodovi": 65}
+        { "naziv":"Nastavnički informatika", "bodovi": 0},
+        { "naziv":"Nastavnički informatika i tehnika","bodovi": 0},
+        { "naziv":"Informatika baze podataka","bodovi": 0}
       ],
       "predmeti": [
         {"naziv" : "Matematika", "ocjena": 2},
@@ -43,9 +43,27 @@ module.exports = [
       "studijski_smijer": "Informatika i tehnika",
       "primljena": false,
       "izbor":[
-        { "naziv":"Nastavnički informatika", "bodovi": 56},
+        { "naziv":"Nastavnički informatika", "bodovi": 50},
         { "naziv":"Nastavnički informatika i tehnika","bodovi": 76},
         { "naziv":"Informatika baze podataka","bodovi": 65}
+      ],
+      "predmeti": [
+        {"naziv" : "Matematika", "ocjena": 2},
+        {"naziv" : "Baze podataka", "ocjena": 1},
+        {"naziv" : "Arhitektura računala", "ocjena": 1},
+      ]
+    },
+    {
+      "id": 1003,
+      "ime": "Iva",
+      "prezime": "Kilić",
+      "godina_studiranja": 3,
+      "studijski_smijer": "Informatika i tehnika",
+      "primljena": false,
+      "izbor":[
+        { "naziv":"Nastavnički informatika", "bodovi": 3},
+        { "naziv":"Informatika baze podataka","bodovi": 65},
+        { "naziv":"Nastavnički informatika i tehnika","bodovi": 76}
       ],
       "predmeti": [
         {"naziv" : "Matematika", "ocjena": 2},
