@@ -29,37 +29,7 @@ document.getElementById("ucitaj").addEventListener("click",(e)=>{
         }
     })
 })
-// function zamjena(a,niz,smijer){
-//     let mini=101;
-//     let ind=0;
-//     let vr=false;
-//     for(let i=0;i<niz.length;i++){
-//         for(let j=0;j<3;j++){
-//             if(lista[a].izbor[j].naziv==smijer){
-//                 if(niz[i].izbor[j].bodovi<mini){
-//                     ind=i;
-//                     mini=niz[i].izbor[j].bodovi;
-//                     vr=true;
-//                 }
-//             }
-//         }
-//     }
-//     if(vr){
-//         lista[a].primljena=true;
-//         for(let i=0;i<lista.length;i++){
-//             if(niz[ind]==lista[i]){
-//                 lista[i].primljena=false;
-//             }
-//         }
-//         niz[ind]=a;
-//         return true;
-//     }
-//     else{
-//         vr=false
-//         return false;
-//     }
 
-// }
 function upad(a,b){
     let id=0;
     let min=lista[a].izbor[b].bodovi;
