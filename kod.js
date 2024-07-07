@@ -29,380 +29,138 @@ document.getElementById("ucitaj").addEventListener("click",(e)=>{
         }
     })
 })
+// function zamjena(a,niz,smijer){
+//     let mini=101;
+//     let ind=0;
+//     let vr=false;
+//     for(let i=0;i<niz.length;i++){
+//         for(let j=0;j<3;j++){
+//             if(lista[a].izbor[j].naziv==smijer){
+//                 if(niz[i].izbor[j].bodovi<mini){
+//                     ind=i;
+//                     mini=niz[i].izbor[j].bodovi;
+//                     vr=true;
+//                 }
+//             }
+//         }
+//     }
+//     if(vr){
+//         lista[a].primljena=true;
+//         for(let i=0;i<lista.length;i++){
+//             if(niz[ind]==lista[i]){
+//                 lista[i].primljena=false;
+//             }
+//         }
+//         niz[ind]=a;
+//         return true;
+//     }
+//     else{
+//         vr=false
+//         return false;
+//     }
 
-document.getElementById("razvrstaj").addEventListener("click",(e)=> {
+// }
+function upad(a,b){
+    let id=0;
+    let min=lista[a].izbor[b].bodovi;
+    let ind=0;
+    let pr=false;
+    let niz=[];
+    let smijer="";
+    if(lista[a].izbor[b].naziv=="Nastavnički informatika"){
+        niz=inf;
+        smijer="Nastavnički informatika";
+        if(niz.length<3){
+            lista[a].primljena=true;
+            niz.push(lista[a]);
+            return true;
+        }
+    }
+    else if(lista[a].izbor[b].naziv=="Nastavnički informatika i tehnika"){
+        niz=infiteh;
+        smijer="Nastavnički informatika i tehnika";
+        if(niz.length<6){
+            lista[a].primljena=true;
+            niz.push(lista[a]);
+            return true;
+        }
+    }
+    else{
+        niz=baze;
+        smijer="Informatika baze podataka";
+        if(niz.length<10){
+            lista[a].primljena=true;
+            niz.push(lista[a]);
+            return true;
+
+        }
+    }
+    console.log(niz);
+    for(let j=0;j<niz.length;j++){
+        console.log(niz[j]);
+        for(let h=0;h<3;h++){
+            if(niz[j].izbor[h].naziv==smijer){
+                console.log(id);
+                if(niz[j].izbor[h].bodovi<min){
+                    min=niz[j].izbor[h].bodovi;
+                    ind=j;
+                    id=niz[j].id;
+                    pr=true;
+                    if(lista[a].ime=="Jozo"){
+                        console.log(niz[j].ime+" "+niz[j].izbor[h].bodovi);
+                    }
+                }
+
+            }
+        }
+    }
+    //let pr=zamjena(a,niz,smijer);
+    if(pr){
+        if(lista[a].izbor[b].naziv=="Nastavnički informatika"){
+            lista[a].primljena=true;
+            inf[ind]=lista[a];
+        }
+        else if(lista[a].izbor[b].naziv=="Nastavnički informatika i tehnika"){
+            lista[a].primljena=true;
+            infiteh[ind]=lista[a];
+        }
+        else{
+            lista[a].primljena=true;
+            baze[ind]=lista[a];
+        }
+        for(let j=0;j<lista.length;j++){
+            if(lista[j].id==id){
+                lista[j].primljena=false;
+            }
+        }
+}
+}
+
+document.getElementById("provjera").addEventListener("click",(e)=>{
     e.preventDefault();
-
     for(let i=0;i<lista.length;i++){
-        //SLUCAJ KADA JE INFORMATIKA PRVI IZBOR
-        if(lista[i].izbor[0].naziv=="Nastavnički informatika" ){
-            if(inf.length<6){
-                inf.push(lista[i]);
-                lista[i].primljena=true;
-                console.log("Primljen na inf "+lista[i]);
-            }
-            else{
-                let mini=1000;
-                for(let p=0;p<inf.length;p++){
-                    if(inf[p].izbor[0].bodovi<mini){
-                        mini=inf[p].izbor[0].bodovi;
-                    }
-                }
-                for(let j=0;j<inf.length;j++){
-                    if(lista[i].izbor[0].bodovi>=inf[j].izbor[0].bodovi && mini==inf[j].izbor[0].bodovi){
-                        let st=inf[j];
-                        inf[j]=lista[i];
-                        lista[i].primljena=true;
-                        let ind=0;
-                        for(let c=0;c<lista.length;c++){
-                            if(st==lista[c]){
-                                ind=c;
-                            }
-                        }
-                        lista[ind].primljena=false;
-                        console.log(lista[i].ime+"izgurao "+st.ime);
-                        if(st.izbor[1].naziv=="Nastavnički informatika i tehnika"){
-                            if(infiteh.length<6){
-                                infiteh.push(st);
-                                lista[ind].primljena=true;
-                                console.log(" primljen je na infiteh "+st.ime);
-                            }
-                            else{
-                                for(let k=0;k<infiteh.length;k++){
-                                    if(st.izbor[1].bodovi>=infiteh[k].izbor[1].bodovi){
-                                        infiteh[k]=st;
-                                        lista[ind].primljena=true;
-
-                                    }
-                                    
-                                }
-                         }
-                        }
-                        else if(st.izbor[1].naziv=="Informatika baze podataka"){
-                            if(baze.length<5){
-                                baze.push(st);
-                                lista[ind].primljena=true;
-                                console.log("primljen je na baze "+st);
-                            }
-                            else{
-                                for(let h=0;h<baze.length;h++){
-                                    if(st.izbor[1].bodovi>=baze[h].izbor[1].bodovi){
-                                        baze[h]=st;
-                                        lista[ind].primljena=true;
-                                    }
-                                   
-                                }
-                            }
-                        }
-                        if(st.primljena==false){
-                            if(st.izbor[2]=="Nastavnički informatika i tehnika"){
-                                infiteh.push(st);
-                                lista[ind].primljena=true;
-                            }
-                            else{
-                                baze.push(st);
-                                lista[ind].primljena=true;
-
-                            }
-
-                        }
-                    }
-                    
-                    else if(lista[i].primljena==false){
-                        console.log("koliko puta vamo ulazi");
-                        if(lista[i].izbor[1].naziv=="Nastavnički informatika i tehnika"){
-                            if(infiteh.length<6){
-                                infiteh.push(lista[i]);
-                                lista[i].primljena=true;
-                                console.log("primljen je na infiteh "+lista[i]);
-                            }
-                            else{
-                                for(let k=0;k<infiteh.length;k++){
-                                    if(lista[i].izbor[0].bodovi>=infiteh[k].izbor[0].bodovi){
-                                        infiteh[k]=lista[i];
-                                        lista[i].primljena=true;
-
-                                    }
-                                    
-                                }
-                         }
-                        
-                        }
-                        else if(lista[i].izbor[1].naziv=="Informatika baze podataka"){
-                            if(baze.length<5){
-                                baze.push(lista[i]);
-                                lista[i].primljena=true;
-
-                                console.log("primljen je na baze "+lista[i]);
-                            }
-                            else{
-                                for(let h=0;h<baze.length;h++){
-                                    if(lista[i].izbor[0].bodovi>=baze[h].izbor[0].bodovi){
-                                        baze[h]=lista[i];
-                                        lista[i].primljena=true;
-
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    } 
-                  
-                    
-                }
-            }
-        }
-        //SLUCAJ KADA JE PRVI IZBOR INFORMATIKA I TEHNIKA
-        else if(lista[i].izbor[0].naziv=="Nastavnički informatika i tehnika" ){
-            if(infiteh.length<6){
-                infiteh.push(lista[i]);
-                lista[i].primljena=true;
-                console.log("Primljen na infiteh "+lista[i]);
-            }
-            else{
-                let mini=1000;
-                for(let p=0;p<inf.length;p++){
-                    if(inf[p].izbor[0].bodovi<mini){
-                        mini=inf[p].izbor[0].bodovi;
-                    }
-                }
-                for(let j=0;j<infiteh.length;j++){
-                    if(lista[i].izbor[0].bodovi>=infiteh[j].izbor[0].bodovi && mini==infiteh[j].izbor[0].bodovi){
-                        let st=infiteh[j];
-                        infiteh[j]=lista[i];
-                        lista[i].primljena=true;
-                        let ind=0;
-                        for(let c=0;c<lista.length;c++){
-                            if(st==lista[c]){
-                                ind=c;
-                                lista[c].primljena=false;
-                            }
-                        }
-                        console.log(lista[i].ime+"izgurao "+st.ime);
-                        if(st.izbor[1].naziv=="Nastavnički informatika i tehnika"){
-                            if(infiteh.length<6){
-                                infiteh.push(st);
-                                lista[ind].primljena=true;
-                                console.log(" primljen je na infiteh "+st.ime);
-                            }
-                            else{
-                                for(let k=0;k<infiteh.length;k++){
-                                    if(st.izbor[1].bodovi>=infiteh[k].izbor[1].bodovi){
-                                        infiteh[k]=st;
-                                        lista[ind].primljena=true;
-
-                                    }
-                                }
-                         }
-                        }
-                        else if(st.izbor[1].naziv=="Informatika baze podataka"){
-                            if(baze.length<5){
-                                baze.push(st);
-                                lista[ind].primljena=true;
-                                console.log("primljen je na baze "+st);
-                            }
-                            else{
-                                for(let h=0;h<baze.length;h++){
-                                    if(st.izbor[1].bodovi>=baze[h].izbor[1].bodovi){
-                                        baze[h]=st;
-                                        lista[ind].primljena=true;
-                                    }
+        upad(i,0);
         
-                                }
-                            }
-                        }
-                        if(st.primljena==false){
-                            if(st.izbor[2]=="Nastavnički informatika"){
-                                inf.push(st);
-                                lista[ind].primljena=true;
-                            }
-                            else{
-                                baze.push(st);
-                                lista[ind].primljena=true;
-
-                            }
-
-                        }
-                    }
-                    else if(lista[i].primljena==false){
-                        console.log("koliko puta vamo ulazi");
-                        if(lista[i].izbor[1].naziv=="Nastavnički informatika"){
-                            if(inf.length<6){
-                                inf.push(lista[i]);
-                                lista[i].primljena=true;
-                                console.log("primljen je na infiteh "+lista[i]);
-                            }
-                            else{
-                                for(let k=0;k<inf.length;k++){
-                                    if(lista[i].izbor[0].bodovi>=inf[k].izbor[0].bodovi){
-                                        inf[k]=lista[i];
-                                        lista[i].primljena=true;
-
-                                    }
-                                    else{
-                                        baze.push(lista[i]);
-                                        lista[i].primljena=true;
-                                    }
-                                }
-                         }
-                        
-                        }
-                        else if(lista[i].izbor[1].naziv=="Informatika baze podataka"){
-                            if(baze.length<5){
-                                baze.push(lista[i]);
-                                lista[i].primljena=true;
-
-                                console.log("primljen je na baze "+lista[i]);
-                            }
-                            else{
-                                for(let h=0;h<baze.length;h++){
-                                    if(lista[i].izbor[0].bodovi>=baze[h].izbor[0].bodovi){
-                                        baze[h]=lista[i];
-                                        lista[i].primljena=true;
-
-                                    }
-                                    else{
-                                        inf.push(lista[i]);
-                                        lista[i].primljena=true;
-                                    }
-                                }
-                            }
-                        }
-                    } 
-                  
-                    
-                }
-            }
-        }
-        //SLUCAJ KAD SU BAZE PRVI IZBOR
-        else if(lista[i].izbor[0].naziv=="Informatika baze podataka"){
-            if(baze.length<5){
-                baze.push(lista[i]);
-                lista[i].primljena=true;
-                console.log("Primljen na baze kao prvi izbor "+lista[i]);
-            }
-            else{
-                let mini=1000;
-                for(let p=0;p<inf.length;p++){
-                    if(inf[p].izbor[0].bodovi<mini){
-                        mini=inf[p].izbor[0].bodovi;
-                    }
-                }
-                for(let j=0;j<baze.length;j++){
-                    if(lista[i].izbor[0].bodovi>=baze[j].izbor[0].bodovi && mini==baze[j].izbor[0].bodovi){
-                        let st=baze[j];
-                        baze[j]=lista[i];
-                        lista[i].primljena=true;
-                        let ind=0;
-                        for(let c=0;c<lista.length;c++){
-                            if(st==lista[c]){
-                                ind=c;
-                                lista[c].primljena=false;
-                            }
-                        }
-                        console.log(lista[i].ime+"izgurao "+st.ime);
-                        if(st.izbor[1].naziv=="Nastavnički informatika i tehnika"){
-                            if(infiteh.length<6){
-                                infiteh.push(st);
-                                lista[ind].primljena=true;
-                                console.log(" primljen je na infiteh "+st.ime);
-                            }
-                            else{
-                                for(let k=0;k<infiteh.length;k++){
-                                    if(st.izbor[1].bodovi>=infiteh[k].izbor[1].bodovi){
-                                        infiteh[k]=st;
-                                        lista[ind].primljena=true;
-
-                                    }
-                                }
-                         }
-                        }
-                        else if(st.izbor[1].naziv=="Nastavnički informatika"){
-                            if(inf.length<6){
-                                inf.push(st);
-                                lista[ind].primljena=true;
-                                console.log("primljen je na baze "+st);
-                            }
-                            else{
-                                for(let h=0;h<inf.length;h++){
-                                    if(st.izbor[1].bodovi>=inf[h].izbor[1].bodovi){
-                                        inf[h]=st;
-                                        lista[ind].primljena=true;
-                                    }
         
-                                }
-                            }
-                        }
-                        if(st.primljena==false){
-                            if(st.izbor[2]=="Nastavnički informatika"){
-                                inf.push(st);
-                                lista[ind].primljena=true;
-                            }
-                            else{
-                                infiteh.push(st);
-                                lista[ind].primljena=true;
-
-                            }
-
-                        }
-                    }
-                    else if(lista[i].primljena==false){
-                        console.log("koliko puta vamo ulazi");
-                        if(lista[i].izbor[1].naziv=="Nastavnički informatika"){
-                            if(inf.length<6){
-                                inf.push(lista[i]);
-                                lista[i].primljena=true;
-                                console.log("primljen je na infiteh "+lista[i]);
-                            }
-                            else{
-                                for(let k=0;k<inf.length;k++){
-                                    if(lista[i].izbor[0].bodovi>=inf[k].izbor[0].bodovi){
-                                        inf[k]=lista[i];
-                                        lista[i].primljena=true;
-
-                                    }
-                                    else{
-                                        baze.push(lista[i]);
-                                        lista[i].primljena=true;
-                                    }
-                                }
-                         }
-                        
-                        }
-                        else if(lista[i].izbor[1].naziv=="Informatika baze podataka"){
-                            if(baze.length<5){
-                                baze.push(lista[i]);
-                                lista[i].primljena=true;
-
-                                console.log("primljen je na baze "+lista[i]);
-                            }
-                            else{
-                                for(let h=0;h<baze.length;h++){
-                                    if(lista[i].izbor[0].bodovi>=baze[h].izbor[0].bodovi){
-                                        baze[h]=lista[i];
-                                        lista[i].primljena=true;
-
-                                    }
-                                    else{
-                                        inf.push(lista[i]);
-                                        lista[i].primljena=true;
-                                    }
-                                }
-                            }
-                        }
-                    } 
-                  
-                    
-                }
-            }
+    }
+    for(let i=0;i<lista.length;i++){
+        if(lista[i].primljena==false){
+        upad(i,1);
         }
-    } 
-
-    console.log(infiteh);
+        
+    }
+    for(let i=0;i<lista.length;i++){
+        if(lista[i].primljena==false){
+            upad(i,2);
+        }
+    }
+    console.log(lista);
     console.log(inf);
+    console.log(infiteh);
     console.log(baze);
     const listinf=document.getElementById("inf");
     for(let i=0;i<inf.length;i++){
+        
         let novi=document.createElement("li");
         novi.innerHTML+=inf[i].ime+" "+inf[i].prezime+" "+inf[i].studijski_smijer+"\n";
         listinf.appendChild(novi);
@@ -419,5 +177,7 @@ document.getElementById("razvrstaj").addEventListener("click",(e)=> {
         novi.innerHTML+=baze[i].ime+" "+baze[i].prezime+" "+baze[i].studijski_smijer+"\n";
         listbaze.appendChild(novi);
     }
-    
+    inf=[];
+    infiteh=[];
+    baze=[];
 })

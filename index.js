@@ -65,3 +65,45 @@ app.listen(4000, () => console.log("Server sluša port 4000!"));
 //    }
 //   return true;
 // }
+
+
+
+
+
+
+// function ispisbodova(a,j){
+//   if(a==inf){
+//       for(let i=0;i<3;i++){
+//           if(inf[j].izbor[i].naziv=="Nastavnički informatika"){
+//               return inf[j].izbor[i].bodovi;
+//           }
+//       }
+//   }
+//   else if(a==infiteh){
+//       for(let i=0;i<3;i++){
+//           if(infiteh[j].izbor[i].naziv=="Nastavnički informatika i tehnika"){
+//               return infiteh[j].izbor[i].bodovi;
+//           }
+//       }
+//   }
+//   else{
+//       for(let i=0;i<3;i++){
+//           if(baze[j].izbor[i].naziv=="Nastavnički informatika"){
+//               return baze[j].izbor[i].bodovi;
+//           }
+//       }
+//   }
+// }
+// function bodovanje(a){
+//   for(let i=0;i<3;i++){
+//       if(a.izbor[i].naziv=="Nastavnički informatika"){
+//           a.izbor[i].bodovi=(180*a.predmeti[2].ocjena)/a.godina_studiranja;
+//       }
+//       else if(a.izbor[i].naziv=="Nastavnički informatika"){
+//           a.izbor[i].bodovi=(180*a.predmeti[0].ocjena)/a.godina_studiranja;
+//       }
+//       else{
+//           a.izbor[i].bodovi=(180*a.predmeti[1].ocjena)/a.godina_studiranja;
+//       }
+//   }
+// }
