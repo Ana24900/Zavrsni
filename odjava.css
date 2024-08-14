@@ -1,13 +1,16 @@
-/* Opći stilovi */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f5f5f5;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
     color: #333;
 }
 
-/* Navigacijska traka */
 #navigacijska {
     background-color: #4CAF50;
     padding: 1rem;
@@ -15,7 +18,8 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Osigurava da traka bude iznad ostalih elemenata */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #navigacijska ul {
@@ -38,65 +42,101 @@ body {
     border-radius: 5px;
 }
 
-/* Glavni sadržaj */
-#glavna {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 5rem; /* Dodaje prostor za navigacijsku traku */
-}
-
-/* Stil za box */
-#box {
+#container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 1200px;
+    margin-top: 80px;
 }
 
-/* Naslovi */
+#forms-container {
+    display: flex;
+    justify-content: space-around;
+    width: 90%;
+    margin-top: 20px;
+}
+
+.form-group {
+    width: 45%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
 h1 {
     font-family: 'Playfair Display', serif;
     font-size: 2.7rem;
     color: #888888; 
     margin-bottom: 2rem;
     font-weight: bold;
+    text-align: center;
 }
 
-/* Dugmad */
-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    cursor: pointer;
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+label {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    margin: 1rem;
+    font-size: 1em;
+}
+
+button {
+    width: 100%;
+    background-color: #45a049;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
-button:focus {
-    outline: none;
-}
-
-/* Prostor za listu */
 #lista {
-    margin: 1rem 0;
-    width: 100%;
-    max-width: 1200px;
+    margin-top: 20px;
+    width: 80%;
+    max-width: 800px;
 }
+
+.error {
+    border: 1px solid red;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     border-radius: 10px;
-    overflow: hidden; /* Da se zaobljeni rubovi pravilno prikažu */
+    overflow: hidden;
 }
 
 th, td {
@@ -124,40 +164,12 @@ td:last-child, th:last-child {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
-/* styles.css */
 
-.detalji-container {
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #eff3f5; /* Suptilan plavi ton */
-    margin: 15px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid #d0e4f1; /* Svetlija plava boja za okvir */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Moderan font */
-    text-align: left; /* Poravnanje teksta levo */
-}
-
-.detalji-container p {
-    font-size: 15px;
-    color: #333;
-    margin: 0 0 10px 0;
-}
-
-.detalji-container h3 {
-    font-size: 18px;
-    color: #5a5b5c; /* Snažnija plava boja za naslove */
-    border-bottom: 2px solid#5a5b5c; /* Isti plavi ton za donji okvir naslova */
-    padding-bottom: 5px;
-    margin: 15px 0 10px 0;
-}
-
-.detalji-container strong {
-    color: #4172a6; /* Tamnija plava boja za naglašene delove */
-}
-.kaolink {
+.link-like {
     color: rgb(89, 89, 255);
     cursor: pointer;
 }
-.kaolink:hover{
+
+.link-like:hover {
     color: #1d3d60;
 }

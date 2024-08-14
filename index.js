@@ -1,9 +1,16 @@
 
 //Uključujemo paket "express"
+let idPopisa=1039;
+let idprof=10010;
 const express = require("express");
+
 // i stvaramo novu aplikaciju
 const app = express();
-
+const administratiri=[
+  { username: 'iva', password: 'iva123' },
+  { username: 'lara', password: '12345678' },
+  { username: 'ana', password: 'ana123'}
+];
 app.use(function (req, res, next) {
   // Stranice (izvori) koji imaju pristup
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -37,20 +44,36 @@ app.get("/", (req, res) =>
 app.get("/popis", (req, res) => res.json(popis));
 
 // POST ruta za dodavanje novog naloga
-// app.post("/popis", (req, res) => {
-//   const podatak = req.body;
-//   if (!provjera(podatak)) {
-//     res.status(400).json({ poruka: "Zahtjev nije ispravan!" });
-//   } else {
-//     podatak.id = idPopisa;
-//     idPopisa++;
-//     popis.push(podatak);
-//     res.json(popis);
-//   }
-// });
+app.post("/popis/novi", (req, res) => {
+  const podatak = req.body;
+  
+    podatak.id = idPopisa;
+    idPopisa++;
+    popis.push(podatak);
+    res.json(popis);
+  
+});
 
 // Osluškuje konekcije za zadanom portu
 app.listen(4000, () => console.log("Server sluša port 4000!"));
+
+let popis2 = require("./popis_prof");
+
+// Definiramo osnovnu rutu za GET zahtjev
+app.get("/", (req, res) =>
+  res.send("Dobrodošli na server!")
+);
+app.get("/popis_prof", (req, res) => res.json(popis2));
+
+app.post("/popis_prof/novi", (req, res) => {
+    const podatak = req.body;
+    
+      podatak.id = idPopisa;
+      idPopisa++;
+      popis2.push(podatak);
+      res.json(popis2);
+    
+  });
 
 // Provjera POST zahtjeva za prvu grupu
 // function provjera(tijelo) {
@@ -66,44 +89,36 @@ app.listen(4000, () => console.log("Server sluša port 4000!"));
 //   return true;
 // }
 
+app.post('/login', (req, res) => {
+  let  { username, password } = req.body;
+  // Pronađi korisnika s odgovarajućim korisničkim imenom i lozinkom
+  const user = administratiri.find(user => user.username === username && user.password === password);
+  console.log(`Pronađeni korisnik: ${JSON.stringify(user)}`); //provjeravam jeli dobra pohrana
+  if(user) {
+      res.json({ success: true, username: username }); 
+  } else {
+      res.json({ success: false,username: username,password: password });
+  }
+});
+app.delete('/popis/:id', (req, res) => {
+  const studentid = Number(req.params.id);
+  const podaciNakonBrisanja = popis.filter((student) => student.id != studentid);
 
+  if (!podaciNakonBrisanja) {
+    res.status(500).send('Podatak za brisanje nije pronađen');
+  } else {
+    popis = podaciNakonBrisanja;
+    res.send(popis);
+  }
+});
+app.delete('/popis_prof/:id', (req, res) => {
+  const profid = Number(req.params.id);
+  const podaciNakonBrisanja = popis2.filter((prof) => prof.id != profid);
 
-
-
-
-// function ispisbodova(a,j){
-//   if(a==inf){
-//       for(let i=0;i<3;i++){
-//           if(inf[j].izbor[i].naziv=="Nastavnički informatika"){
-//               return inf[j].izbor[i].bodovi;
-//           }
-//       }
-//   }
-//   else if(a==infiteh){
-//       for(let i=0;i<3;i++){
-//           if(infiteh[j].izbor[i].naziv=="Nastavnički informatika i tehnika"){
-//               return infiteh[j].izbor[i].bodovi;
-//           }
-//       }
-//   }
-//   else{
-//       for(let i=0;i<3;i++){
-//           if(baze[j].izbor[i].naziv=="Nastavnički informatika"){
-//               return baze[j].izbor[i].bodovi;
-//           }
-//       }
-//   }
-// }
-// function bodovanje(a){
-//   for(let i=0;i<3;i++){
-//       if(a.izbor[i].naziv=="Nastavnički informatika"){
-//           a.izbor[i].bodovi=(180*a.predmeti[2].ocjena)/a.godina_studiranja;
-//       }
-//       else if(a.izbor[i].naziv=="Nastavnički informatika"){
-//           a.izbor[i].bodovi=(180*a.predmeti[0].ocjena)/a.godina_studiranja;
-//       }
-//       else{
-//           a.izbor[i].bodovi=(180*a.predmeti[1].ocjena)/a.godina_studiranja;
-//       }
-//   }
-// }
+  if (!podaciNakonBrisanja) {
+    res.status(500).send('Podatak za brisanje nije pronađen');
+  } else {
+    popis2 = podaciNakonBrisanja;
+    res.send(popis2);
+  }
+});
