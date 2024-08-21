@@ -37,6 +37,7 @@ body {
     border-radius: 5px;
 }
 
+
 /* Glavni sadržaj */
 #glavna {
     display: flex;
@@ -128,12 +129,12 @@ td:last-child, th:last-child {
 .detalji-container {
     padding: 20px;
     border-radius: 8px;
-    background-color: #eff3f5; /* Suptilan plavi ton */
+    background-color: #eff3f5; 
     margin: 15px 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid #d0e4f1; /* Svetlija plava boja za okvir */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Moderan font */
-    text-align: left; /* Poravnanje teksta levo */
+    border: 1px solid #d0e4f1; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    text-align: left; 
 }
 
 .detalji-container p {
@@ -151,7 +152,7 @@ td:last-child, th:last-child {
 }
 
 .detalji-container strong {
-    color: #4172a6; /* Tamnija plava boja za naglašene delove */
+    color: #4172a6; 
 }
 .kaolink {
     color: rgb(89, 89, 255);

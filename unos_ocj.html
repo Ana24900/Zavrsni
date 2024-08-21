@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="unos_ocj.css">
+</head>
+<body>
+    <diy class="container">
+        <div id="navigacijska">
+            <ul>
+                <li class="item" id="popis">Popisi studenata</li>
+                <li class="item" id="promjena">Promjene podataka</li>
+            </ul>
+        </div>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close">&times;</span>
+                <h2>Predmeti koje profesor predaje:</h2>
+                <ul id="predmetiLista">
+                    <!-- Ovde će se dinamički dodavati predmeti -->
+                </ul>
+            </div>
+        </div>
+        <div id="pretrazivanje">
+            <label for="pretrazivanje">Pretraživanje</label>
+            <input placeholder="Search..." type="text" name="pretrazivanje" id="pretrazivanje">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        <div id="lista"></div>
+    </diy>
+</body>
+<script src="unos_ocj.js"></script>
+</html>

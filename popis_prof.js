@@ -157,6 +157,7 @@ module.exports = [
         "prezime": "Horvat",
         "polozaj": "Asistent",
         "email": "karlahorvat@pmf.st",
+        "lozinka":"12345678",
         "kontakt": "0953467752",
         "ured": "B5-2",
         "odjel": "matematika",

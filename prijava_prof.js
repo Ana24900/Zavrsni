@@ -1,4 +1,4 @@
-var osnovniurl='http://localhost:4000/login';
+var osnovniurl='http://localhost:4000/login/prof';
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -23,8 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             const data = await response.json();
             if (data.success) {
-                console.log("Pronaden administrator");
-                window.location.href = 'stranica.html';
+                window.location.href = `unos_ocj.html?podatak=${encodeURIComponent(data.user.id)}`;
             } else {
                 document.getElementById("poruka").textContent = "Korisnički račun ne postoji " + data.username + " " + data.password;
             }
@@ -33,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
-document.getElementById("profesori").addEventListener("click",(e)=>{
+document.getElementById("administrator").addEventListener("click",(e)=>{
     e.preventDefault();
-    window.location.href='pocetna_prof.html'
+    window.location.href='pocetna.html'
 })

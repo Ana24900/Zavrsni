@@ -7,9 +7,9 @@ const express = require("express");
 // i stvaramo novu aplikaciju
 const app = express();
 const administratiri=[
-  { username: 'iva', password: 'iva123' },
-  { username: 'lara', password: '12345678' },
-  { username: 'ana', password: 'ana123'}
+  { email: 'iva', lozinka: 'iva123' },
+  { email: 'lara', lozinka: '12345678' },
+  { email: 'ana', lozinka: 'ana123'}
 ];
 app.use(function (req, res, next) {
   // Stranice (izvori) koji imaju pristup
@@ -75,29 +75,54 @@ app.post("/popis_prof/novi", (req, res) => {
     
   });
 
-// Provjera POST zahtjeva za prvu grupu
-// function provjera(tijelo) {
-//   console.log(tijelo)
-//   if (!tijelo.artikli) {
-//    console.log("Popis ne smije biti prazan");
-//     return false;
-//   }
-//   if (!tijelo.cijena) {
-//     console.log("Nije definirana cijena");
-//      return false;
-//    }
-//   return true;
-// }
+  app.put("/studenti/:id", (req, res) => {
+    const studid= req.params.id;
+    const novi = req.body;
+    console.log("Promjena studenta: ", studid);
+  
+    let nasao = false;
+    const noviNizPodataka = [];
+
+    popis.forEach(stari => {
+      if (stari.id == studid) {
+        novi.id = studid;  // Dodajemo ID u novi objekt
+        noviNizPodataka.push(novi);
+        console.log("Nasao sam podatak za promjenu");
+        nasao = true;
+      } else {
+        noviNizPodataka.push(stari);
+      }
+    });
+    if (nasao) {
+      popis = noviNizPodataka;
+      res.status(200).json({ poruka: "Uspjesno azurirani podaci!!", popis: noviNizPodataka });
+    } else {
+      res.status(204).send();
+    }
+  });
+  
+  
 
 app.post('/login', (req, res) => {
-  let  { username, password } = req.body;
+  let  {email, lozinka } = req.body;
   // Pronađi korisnika s odgovarajućim korisničkim imenom i lozinkom
-  const user = administratiri.find(user => user.username === username && user.password === password);
+  const user = administratiri.find(user => user.email === email && user.lozinka === lozinka);
   console.log(`Pronađeni korisnik: ${JSON.stringify(user)}`); //provjeravam jeli dobra pohrana
   if(user) {
-      res.json({ success: true, username: username }); 
+      res.json({ success: true, email: email }); 
   } else {
-      res.json({ success: false,username: username,password: password });
+      res.json({ success: false,email: email,lozinka: lozinka });
+  }
+});
+app.post('/login/prof', (req, res) => {
+  let  {email, lozinka } = req.body;
+  // Pronađi korisnika s odgovarajućim korisničkim imenom i lozinkom
+  const user = popis2.find(user => user.email === email && user.lozinka === lozinka);
+  console.log(`Pronađeni korisnik: ${JSON.stringify(user)}`); //provjeravam jeli dobra pohrana
+  if(user) {
+      res.json({ success: true, user }); 
+  } else {
+      res.json({ success: false,email: email,lozinka: lozinka });
   }
 });
 app.delete('/popis/:id', (req, res) => {

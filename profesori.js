@@ -14,29 +14,14 @@ document.addEventListener('DOMContentLoaded',(e)=> {
         return res.json();
     })
     .then(data=>{
-        var b=0;
-        const list=document.getElementById("lista");
-        var novi="<table><thead><tr><th>br.</th><th>Ime</th><th>Prezime</th><th>Položaj</th><th>Odjel</th><th>Kontakt</th><th>Ured</th><th>Detalji</th></tr></thead><tbody>";
-        for(let i of data){
-            lista.push(i);
-            console.log(i);
-            b++;
-            novi+="<tr><td>"+b+"."+"</td><td>"+i.ime+"</td><td>"+i.prezime+"</td><td>"+i.polozaj+"</td><td>"+i.odjel+"</td><td>"+i.kontakt+"<td>"+i.ured+"</td>"+`</td><td class="kaolink" onclick=prikaziDetalje(${i.id},this)>`+"Detalji"+"</td></tr>";
-            
-            
-        }
-        novi+="</tbody></table>"
-        list.innerHTML=novi;
+        lista=data
+        prikaziTabelu(lista);
 
     })
 })
 document.getElementById("reg").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location.href = 'registracija.html';
-})
-document.getElementById("bris").addEventListener("click",(e)=>{
-    e.preventDefault();
-    window.location.href = 'odjava.html';
 })
 document.getElementById("popis").addEventListener("click",(e)=>{
     e.preventDefault();
@@ -75,5 +60,87 @@ function prikaziDetalje(id,element) {
         detalji.appendChild(novi);
         
         roditelj.insertAdjacentElement('afterend', detalji);
+    }
+}
+const displeyItem = (items) => {
+    document.getElementById("ispis").innerHTML = items.map((item) => {
+        const { ime, prezime, polozaj } = item;
+        return `<p>${ime} ${prezime} - ${polozaj}</p>`;
+    }).join("");
+};
+
+document.getElementById("pretrazivanje").addEventListener("keyup", (e) => {
+    const searchData = e.target.value.toLowerCase();
+    const filterData = lista.filter((item) => {
+        return (
+            item.ime.toLowerCase().includes(searchData) ||
+            item.prezime.toLowerCase().includes(searchData) ||
+            item.polozaj.toLowerCase().includes(searchData)
+        );
+    });
+    prikaziTabelu(filterData); // Prikazuje filtrirane rezultate
+});
+
+
+function prikaziTabelu(items) {
+    const list = document.getElementById("lista");
+    let novi = `
+        <table>
+            <thead>
+                <tr>
+                    <th>br.</th>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Položaj</th>
+                    <th>Odjel</th>
+                    <th>Kontakt</th>
+                    <th>Ured</th>
+                    <th>Detalji</th>
+                    <th>Brisanje</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    items.forEach((i, index) => {
+        novi += `
+            <tr>
+                <td>${index + 1}.</td>
+                <td>${i.ime}</td>
+                <td>${i.prezime}</td>
+                <td>${i.polozaj}</td>
+                <td>${i.odjel}</td>
+                <td>${i.kontakt}</td>
+                <td>${i.ured}</td>
+                <td class="kaolink" onclick="prikaziDetalje(${i.id}, this)">Detalji</td>
+                <td class="kaolink" onclick="brisanjeprof(${i.id}, this)">Brisanje</td>
+            </tr>
+        `;
+    });
+
+    novi += "</tbody></table>";
+    list.innerHTML = novi;
+}
+function brisanjeprof(id){
+    
+    if(confirm('Da li ste sigurni da želite obrisati?')){
+            fetch(`http://localhost:4000/popis_prof/${id}`,{
+                method: "DELETE",
+                headers:{ 'Content-Type': 'application/json',
+                'Accept': '*/*'}
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                console.log(data);
+                window.location.href = window.location.href;
+            })
+            .catch(err=>{
+                console.log("greska");
+            })
+    }
+    else{
+        alert("odustali ste od brisanja");
     }
 }

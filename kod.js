@@ -3,6 +3,45 @@ var lista=[];
 var inf=[];
 var infiteh=[];
 var baze=[];
+
+function prikazstud(items) {
+    const list = document.getElementById("lista");
+    let novi = `
+        <table>
+            <thead>
+                <tr>
+                    <th>br.</th>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Studijski smjer</th>
+                    <th>Prosjek</th>
+                    <th>Detalji</th>
+                    <th>Brisanje</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    items.forEach((i, index) => {
+        novi += `
+            <tr>
+                <td>${index + 1}.</td>
+                <td>${i.ime}</td>
+                <td>${i.prezime}</td>
+                <td>${i.studijski_smijer}</td>
+                <td>${i.prosjek}</td>
+                <td class="kaolink" onclick="prikaziDetalje(${i.id}, this)">Detalji</td>
+                <td class="kaolink" onclick="brisanje(${i.id}, this)">Brisanje</td>
+            </tr>
+        `;
+    });
+
+    novi += "</tbody></table>";
+    list.innerHTML = novi;
+}
+
+
+
 document.addEventListener('DOMContentLoaded',(e)=> {
     e.preventDefault();
     document.getElementById("lista").innerHTML="";
@@ -18,24 +57,16 @@ document.addEventListener('DOMContentLoaded',(e)=> {
         return res.json();
     })
     .then(data=>{
-        var b=0;
-        const list=document.getElementById("lista");
-        var novi="<table><thead><tr><th>br.</th><th>Ime</th><th>Prezime</th><th>Studij</th><th>Prosjek</th><th>Detalji</th></tr></thead><tbody>";
         for(let i of data){
             bodovanje(i);
             ectsbodovi(i);
             i.ectsbodovi=ectsbodovi(i);
             i.prosjek=prosjekfun(i);
             lista.push(i);
-            console.log(i);
-            b++;
-            novi+="<tr><td>"+b+"."+"</td><td>"+i.ime+"</td><td>"+i.prezime+"</td><td>"+i.studijski_smijer+"</td><td>"+i.prosjek+`</td><td class="kaolink" onclick=prikaziDetalje(${i.id},this)>`+"Detalji"+"</td></tr>";
-            
+            prikazstud(lista);
             
         }
-        novi+="</tbody></table>"
-        list.innerHTML=novi;
-
+       
     })
 })
 function ispisbodova(a,j){
@@ -244,10 +275,7 @@ document.getElementById("reg").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location.href = 'registracija.html';
 })
-document.getElementById("bris").addEventListener("click",(e)=>{
-    e.preventDefault();
-    window.location.href = 'odjava.html';
-})
+
 document.getElementById("popprof").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location.href='profesori.html'
@@ -288,5 +316,40 @@ function prikaziDetalje(id,element) {
         detalji.appendChild(novi);
         
         roditelj.insertAdjacentElement('afterend', detalji);
+    }
+}
+document.getElementById("pretrazivanje").addEventListener("keyup", (e) => {
+    const searchData = e.target.value.toLowerCase();
+    const filterData = lista.filter((item) => {
+        return (
+            item.ime.toLowerCase().includes(searchData) ||
+            item.prezime.toLowerCase().includes(searchData) ||
+            item.studijski_smijer.toLowerCase().includes(searchData) 
+        );
+    });
+    prikazstud(filterData); 
+});
+
+function brisanje(id){
+    
+    if(confirm('Da li ste sigurni da želite obrisati?')){
+            fetch(`http://localhost:4000/popis/${id}`,{
+                method: "DELETE",
+                headers:{ 'Content-Type': 'application/json',
+                'Accept': '*/*'}
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                console.log(data);
+                window.location.href = window.location.href;
+            })
+            .catch(err=>{
+                console.log("greska");
+            })
+    }
+    else{
+        alert("odustali ste od brisanja");
     }
 }

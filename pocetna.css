@@ -69,3 +69,35 @@ button:hover {
     font-size: 1rem;
     text-align: center;
 }
+
+#navigacijska {
+    background-color: #4CAF50;
+    padding: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#navigacijska ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#navigacijska .item {
+    color: white;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+#navigacijska .item:hover {
+    background-color: #45a049;
+    border-radius: 5px;
+}

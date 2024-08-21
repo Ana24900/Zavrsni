@@ -93,10 +93,6 @@ document.getElementById("popis").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location.href = 'stranica.html';
 })
-document.getElementById("bris").addEventListener("click",(e)=>{
-    e.preventDefault();
-    window.location.href = 'odjava.html';
-})
 document.getElementById("popprof").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location.href='profesori.html'
@@ -136,6 +132,7 @@ document.getElementById("dodpred").addEventListener("click", (e) => {
     di.innerHTML = `
     <div class="kucica-naziv">${pr.naziv}</div>
     <div class="kucica-ects">ECTS: ${pr.ECTS}</div>
+    
     `;
 
     di.appendChild(bot);

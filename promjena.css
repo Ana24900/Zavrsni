@@ -1,0 +1,85 @@
+/* Stiliziranje forme */
+#userForm {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 100px;
+}
+
+/* Stiliziranje svake grupe u formi */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Stiliziranje labele */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Stiliziranje input polja */
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Stiliziranje gumba */
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+#navigacijska {
+    background-color: #4CAF50;
+    padding: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Osigurava da traka bude iznad ostalih elemenata */
+}
+
+#navigacijska ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+#navigacijska .item {
+    color: white;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+#navigacijska .item:hover {
+    background-color: #45a049;
+    border-radius: 5px;
+}
+#pretrazivanje{
+    margin-top:  50px;
+    margin-bottom: 10px;
+    align-items: center;
+
+}
