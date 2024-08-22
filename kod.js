@@ -1,8 +1,11 @@
 
+
 var lista=[];
 var inf=[];
 var infiteh=[];
 var baze=[];
+
+
 
 function prikazstud(items) {
     const list = document.getElementById("lista");
@@ -40,6 +43,56 @@ function prikazstud(items) {
     list.innerHTML = novi;
 }
 
+function sortprikaz(listasort) {
+    let list=null;
+    if(listasort==inf){
+        list = document.getElementById("tablicainf");
+    }
+    else if(listasort==infiteh){
+        list = document.getElementById("tablicainfiteh");
+
+    }
+    else{
+        list = document.getElementById("tablicabaze");
+
+    }
+    let br = 0;
+    let novi = `
+        <table>
+            <thead>
+                <tr>
+                    <th>br.</th>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Studijski smjer</th>
+                    <th>Prosjek</th>
+                    <th>Broj bodova</th>
+                    <th>Uklanjanje</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    listasort.forEach((student, index) => {
+        bodovanje(student);  // Obrada podataka studenta
+        br++;
+        novi += `
+            <tr>
+                <td>${br}.</td>
+                <td>${student.ime}</td>
+                <td>${student.prezime}</td>
+                <td>${student.studijski_smijer}</td>
+                <td>${student.prosjek}</td>
+                <td>${ispisbodova(listasort, index)}</td>
+                <td class="kaolink" onclick="uklanjanje(${student.id})">Ukloni</td>
+            </tr>
+        `;
+    });
+
+    novi += "</tbody></table>";
+    list.innerHTML = novi;
+    
+}
 
 
 document.addEventListener('DOMContentLoaded',(e)=> {
@@ -66,8 +119,10 @@ document.addEventListener('DOMContentLoaded',(e)=> {
             prikazstud(lista);
             
         }
+        
        
     })
+
 })
 function ispisbodova(a,j){
   if(a==inf){
@@ -131,7 +186,7 @@ function upad(a,b){
     if(lista[a].izbor[b].naziv=="Nastavnički informatika"){
         niz=inf;
         smijer="Nastavnički informatika";
-        if(niz.length<13){
+        if(niz.length<7){
             lista[a].primljena=true;
             niz.push(lista[a]);
             return true;
@@ -149,7 +204,7 @@ function upad(a,b){
     else{
         niz=baze;
         smijer="Informatika baze podataka";
-        if(niz.length<17){
+        if(niz.length<8){
             lista[a].primljena=true;
             niz.push(lista[a]);
             return true;
@@ -213,63 +268,26 @@ document.getElementById("provjera").addEventListener("click",(e)=>{
     listbaze.innerHTML="";
     listinf.innerHTML="";
     for(let i=0;i<lista.length;i++){
-        if(lista[i].primljena==false){
+        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
         upad(i,0);
         }
     }
     for(let i=0;i<lista.length;i++){
-        if(lista[i].primljena==false){
+        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
         upad(i,1);
         }
     }
     for(let i=0;i<lista.length;i++){
-        if(lista[i].primljena==false){
+        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
             upad(i,2);
         }
     }
     
-    var br=0
-    var info="<table><thead><tr><th>br.</th><th>Ime</th><th>Prezime</th><th>Studij</th><th>Prosjek</th><th>Broj bodova</th></tr></thead><tbody>";
-    for(let i=0;i<inf.length;i++){
-            bodovanje(inf[i]);
-            lista.push(inf[i]);
-            console.log(inf[i].ime+" inf");
-            br++;
-            info+="<tr><td>"+br+"."+"</td><td>"+inf[i].ime+"</td><td>"+inf[i].prezime+"</td><td>"+inf[i].studijski_smijer+"</td><td>"+inf[i].prosjek+"</td><td>"+ispisbodova(inf,i)+"</td></tr>";
-            
-    }
-    info+="</tbody></table>";   
-    listinf.innerHTML+=info;
-    var br1=0
-    var infoiteh="<table><thead><tr><th>br.</th><th>Ime</th><th>Prezime</th><th>Studij</th><th>Prosjek</th><th>Broj bodova</th></tr></thead><tbody>";
-    for(let i=0;i<infiteh.length;i++){
-        bodovanje(infiteh[i]);
-        lista.push(infiteh[i]);
-        console.log(infiteh[i].ime+" inf i teh ");
-        br1++;
-        infoiteh+="<tr><td>"+br1+"."+"</td><td>"+infiteh[i].ime+"</td><td>"+infiteh[i].prezime+"</td><td>"+infiteh[i].studijski_smijer+"</td><td>"+infiteh[i].prosjek+"</td><td>"+ispisbodova(infiteh,i)+"</td></tr>";
-        
-    }
-    infoiteh+="</tbody></table>";   
-    listinfiteh.innerHTML+=infoiteh;
-    var br2=0
-    var baz="<table><thead><tr><th>br.</th><th>Ime</th><th>Prezime</th><th>Studij</th><th>Prosjek</th><th>Broj bodova</th></tr></thead><tbody>";
-    for(let i=0;i<baze.length;i++){
-        bodovanje(baze[i]);
-        lista.push(baze[i]);
-        console.log(baze[i].ime+" baze");
-        br2++;
-        baz+="<tr><td>"+br2+"."+"</td><td>"+baze[i].ime+"</td><td>"+baze[i].prezime+"</td><td>"+baze[i].studijski_smijer+"</td><td>"+baze[i].prosjek+"</td><td>"+ispisbodova(baze,i)+"</td></tr>";
-        
-    }
-    baz+="</tbody></table>";   
-    listbaze.innerHTML+=baz;
-    inf.length=0;
-    infiteh.length=0;
-    baze.length=0;
-    for(let i=0;i<lista.length;i++){
-        lista[i].primljena=false;
-    }
+    sortprikaz(inf);
+    sortprikaz(infiteh);
+    sortprikaz(baze);
+    
+    
 })
 document.getElementById("reg").addEventListener("click",(e)=>{
     e.preventDefault();
@@ -352,4 +370,81 @@ function brisanje(id){
     else{
         alert("odustali ste od brisanja");
     }
+}
+function uklanjanje(a){
+    for(let i=0;i<inf.length;i++){
+        if(inf[i].id==a){
+            inf.splice(i,1);
+            
+        }
+    }
+    for(let i=0;i<infiteh.length;i++){
+        if(infiteh[i].id==a){
+            infiteh.splice(i,1);
+           
+        }
+    }
+    for(let i=0;i<baze.length;i++){
+        if(baze[i].id==a){
+            baze.splice(i,1);
+            
+        }
+    }
+    let mj={};
+    for(let j=0;j<lista.length;j++){
+        if(lista[j].id==a){
+            lista[j].uklonjen=true;
+            lista[j].primljena=false;
+            mj=lista[j];
+        }
+    }
+    const listinf=document.getElementById("tablicainf");
+    const listinfiteh=document.getElementById("tablicainfiteh");
+    const listbaze=document.getElementById("tablicabaze");
+    console.log(mj);
+    listinfiteh.innerHTML="";
+    listbaze.innerHTML="";
+    listinf.innerHTML="";
+    for(let i=0;i<lista.length;i++){
+        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
+        upad(i,0);
+        }
+    }
+    for(let i=0;i<lista.length;i++){
+        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
+        upad(i,1);
+        }
+    }
+    for(let i=0;i<lista.length;i++){
+        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
+            upad(i,2);
+        }
+    }
+    sortprikaz(inf);
+    sortprikaz(infiteh);
+    sortprikaz(baze);
+    fetch(`http://localhost:4000/studenti/${a}`,{
+        method: "PUT",
+        headers:{
+            "Content-Type": "application/json",
+            "Accept": "*/*"
+        },
+        body: JSON.stringify(mj)
+    })
+    .then(res=>{
+        if(res.status==200){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    })
+    .then(data=>{
+        console.log("dodan je novi podatak");
+    })
+    .catch(err=>{
+        console.log("Podatak sa tim idom je updatean");
+    }
+    )
 }

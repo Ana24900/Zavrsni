@@ -197,3 +197,8 @@ document.getElementById("promjena").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location=`promjena.html?podatak=${podatak}`;
 })
+document.getElementById("odjava").addEventListener("click",(e)=>{
+    e.preventDefault();
+    alert("zelite se odjaviti");
+    window.location="pocetna_prof.html";
+})
