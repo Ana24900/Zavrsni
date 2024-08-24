@@ -19,10 +19,20 @@
         <label for="pretrazivanje">Pretraživanje</label>
             <input placeholder="Search..." type="text" name="pretrazivanje" id="pretrazivanje">
             <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
+    </div>
     <div id="lista">
         
     </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close">&times;</span>
+            <h2>Popis studenata sa pravom upisa vise godine</h2>
+            <ul id="li">
+            </ul>
+            <button id="visa">Unesite studente u višu godinu</button>
+        </div>
+    </div>
+    <button id="godine">Upis u više godine prediplomskog studija</button>
     <div id="studentDetails"></div>
     <div id="box">
         <div id="inf">
@@ -44,6 +54,7 @@
             </div>
         </div>
         <button id="provjera">Sortiranje</button>
+        <button id="up">Upis u diplomski</button>
     </div>
 </body>
     <script src="kod.js"></script>

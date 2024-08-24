@@ -133,7 +133,7 @@ function ocjene(a){
         stud.predmeti.push(pred);
         console.log(pred);
         
-        fetch(`http://localhost:4000/studenti/${a}`,{
+        fetch(`http://localhost:4000/popis/${a}`,{
             method: "PUT",
             headers: {"Content-Type": "application/json",
                 "Accept": "*/*"

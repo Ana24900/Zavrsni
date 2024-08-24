@@ -309,26 +309,26 @@ function prikaziDetalje(id,element) {
         const novi = document.createElement('td');
         novi.colSpan = 6;  // Postavlja koliko kolona ovaj <td> pokriva
         for(let i of lista){
-            if(id==i.id){
-                novi.innerHTML = `
-            <div class="detalji-container">
+                if(id==i.id){
+                    novi.innerHTML = `
+        <div class="detalji-container">
             <p><strong>Ime:</strong> ${i.ime}</p>
             <p><strong>Prezime:</strong> ${i.prezime}</p>
             <p><strong>Studijski smjer:</strong> ${i.studijski_smijer}</p>
             <p><strong>Prosjek:</strong> ${i.prosjek}</p>
-            <p><strong>ECTS bdovi</strong> ${i.ectsbodovi}</p>
+            <p><strong>Godina:</strong>${i.godina_studiranja}</p>
+            <p><strong>Semestar:</strong>${i.semestar}</p>
+            <p><strong>ECTS bodovi:</strong> ${i.ectsbodovi}</p>
             <h3>Izbori</h3>
-            <p><strong>1. ${i.izbor[0].naziv}</strong> Broj bodova:<strong> ${i.izbor[0].bodovi}</strong></p>
-            <p><strong>2. ${i.izbor[1].naziv}</strong> Broj bodova:<strong> ${i.izbor[1].bodovi}</strong></p>
-            <p><strong>3. ${i.izbor[2].naziv}</strong> Broj bodova:<strong> ${i.izbor[2].bodovi}</strong></p>
+            <p><strong>1. ${i.izbor[0].naziv}</strong> Broj bodova: <strong>${i.izbor[0].bodovi}</strong></p>
+            <p><strong>2. ${i.izbor[1].naziv}</strong> Broj bodova: <strong>${i.izbor[1].bodovi}</strong></p>
+            <p><strong>3. ${i.izbor[2].naziv}</strong> Broj bodova: <strong>${i.izbor[2].bodovi}</strong></p>
             <h3>Predmeti</h3>
-            <p> <strong>${i.predmeti[0].naziv}</strong> ocijena: <strong>${i.predmeti[0].ocjena}</strong></p>
-            <p> <strong>${i.predmeti[1].naziv}</strong> ocijena: <strong>${i.predmeti[1].ocjena}</strong></p>
-            <p> <strong>${i.predmeti[2].naziv}</strong> ocijena: <strong>${i.predmeti[2].ocjena}</strong></p>
-            <p> <strong>${i.predmeti[3].naziv}</strong> ocijena: <strong>${i.predmeti[3].ocjena}</strong></p>
-            <p> <strong>${i.predmeti[4].naziv}</strong> ocijena: <strong>${i.predmeti[4].ocjena}</strong></p>
-            </div>         
-            `;
+            ${i.predmeti.map(predmet => `
+                <p><strong>${predmet.naziv}</strong> ocjena: <strong>${predmet.ocjena}</strong></p>
+            `).join('')}
+        </div>
+    `;
             }
         }
         detalji.appendChild(novi);
@@ -423,7 +423,7 @@ function uklanjanje(a){
     sortprikaz(inf);
     sortprikaz(infiteh);
     sortprikaz(baze);
-    fetch(`http://localhost:4000/studenti/${a}`,{
+    fetch(`http://localhost:4000/popis/${a}`,{
         method: "PUT",
         headers:{
             "Content-Type": "application/json",
@@ -448,3 +448,267 @@ function uklanjanje(a){
     }
     )
 }
+document.getElementById("up").addEventListener("click",(e)=>{
+    e.preventDefault();
+
+    for(let i=0;i<inf.length;i++){{
+        i.smijer="Nastavnički informatika";
+        i.ECTS=0;
+        i.godina_studiranja=i.godina_studiranja+1;
+
+            fetch("http://localhost:4000/stud_dip/novi",{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                },
+                body: JSON.stringify(inf[i])
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                alert("Uspjesno unesen student "+inf[i].ime+" "+inf[i].prezime);
+                console.log(data);
+                console.log("uneseno");
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+            fetch(`http://localhost:4000/popis/${inf[i].id}`,{
+                method: "DELETE",
+                headers:{ 'Content-Type': 'application/json',
+                'Accept': '*/*'}
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                console.log(data);
+                window.location.href = window.location.href;
+            })
+            .catch(err=>{
+                console.log("greska");
+            })
+        }
+    }
+    for(let i=0;i<infiteh.length;i++){{
+        infiteh[i].smijer="Nastavnički informatika i tehnika";
+        infiteh[i].ECTS=0;
+        infiteh[i].godina_studiranja=i.godina_studiranja+1;
+        
+            fetch("http://localhost:4000/stud_dip/novi",{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                },
+                body: JSON.stringify(infiteh[i])
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                alert("Uspjesno unesen student "+infiteh[i].ime+" "+infiteh[i].prezime);
+                console.log(data);
+                console.log("uneseno");
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+            fetch(`http://localhost:4000/popis/${infiteh[i].id}`,{
+                method: "DELETE",
+                headers:{ 'Content-Type': 'application/json',
+                'Accept': '*/*'}
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                console.log(data);
+                window.location.href = window.location.href;
+            })
+            .catch(err=>{
+                console.log("greska");
+            })
+        }
+    }
+    for(let i=0;i<baze.length;i++){{
+        i.smijer="Nastavnički informatika";
+        i.ECTS=0;
+        i.godina_studiranja=i.godina_studiranja+1;
+
+            fetch("http://localhost:4000/stud_dip/novi",{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                },
+                body: JSON.stringify(baze[i])
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                alert("Uspjesno unesen student "+baze[i].ime+" "+baze[i].prezime);
+                console.log(data);
+                console.log("uneseno");
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+            fetch(`http://localhost:4000/popis/${baze[i].id}`,{
+                method: "DELETE",
+                headers:{ 'Content-Type': 'application/json',
+                'Accept': '*/*'}
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                console.log(data);
+                window.location.href = window.location.href;
+            })
+            .catch(err=>{
+                console.log("greska");
+            })
+        }
+    }
+    inf=[];
+    infiteh=[];
+    baze=[];
+    fetch("http://localhost:4000/stud_dip",{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "*/*"
+        },
+        
+    })
+    .then(res=>{
+        return res.json();
+    })
+    .then(data=>{
+        console.log(data);
+        
+       
+    })
+})
+var visapravo=[];
+
+function prikazPopisaStudenata(lista) {
+    const modalContent = document.getElementById("li");
+    modalContent.textContent="";
+    let popis ="";
+    
+    lista.forEach((student, index) => {
+        
+        popis += `
+        <li>
+            <strong>${index + 1}. ${student.ime} ${student.prezime}</strong><br>
+            Studijski smjer: ${student.studijski_smijer}<br>
+            Prosjek: ${student.prosjek}<br>
+            <span class="kaolink" onclick="ukloni2(${student.id})">Ukloni</span>
+        </li>`;
+        
+    });
+
+    popis += "</ul>";
+    modalContent.innerHTML += popis;
+}
+
+document.getElementById("godine").addEventListener("click", (e) => {
+    e.preventDefault();
+    let modal = document.getElementById('modal');
+    modal.style.display = 'block';
+    visagodina(lista);
+    for(let student of lista){
+        if(student.primljena==true && student.semestar!=4){
+            student.semestar++;
+            visapravo.push(student);
+     }
+    }
+    prikazPopisaStudenata(visapravo);
+    document.getElementById("close").addEventListener("click",(e)=>{
+        e.preventDefault();
+        let modal = document.getElementById('modal');
+        modal.style.display = 'none'; 
+        
+        
+    })
+});
+
+
+function visagodina(lista){
+    for(let i of lista){
+        if(i.semestar==1){
+            if(i.ECTS<10){
+                i.primljena=false;
+                
+            }
+            else{
+                i.primljena=true;
+                
+            }
+        }
+        if(i.semestar==2){
+            if(i.ECTS<20){
+                i.primljena=false;
+            }
+            else{
+                i.primljena=true;
+                i.godina_studiranja++;
+                
+            }
+        }
+        if(i.semestar==3){
+            if(i.ECTS<30){
+                i.primljena=false;
+            }
+            else{
+                i.primljena=true;
+               
+            }
+        }
+    }
+}
+function ukloni2(a){
+    for(let i=0;i<visapravo.length;i++){
+        if(visapravo[i].id==a){
+            visapravo.splice(i,1);
+            prikazPopisaStudenata(visapravo);
+        }
+    }
+}
+document.getElementById("visa").addEventListener("click",(e)=>{
+    e.preventDefault();
+    
+    for(let i=0;i<visapravo.length;i++){
+
+        fetch(`http://localhost:4000/popis/${visapravo[i].id}`,{
+            method: "PUT",
+            headers:{
+                "Content-Type": "application/json",
+                "Accept": "*/*"
+            },
+            body: JSON.stringify(visapravo[i])
+        })
+        .then(res=>{
+            if(res.status==200){
+                return true;
+            }
+            else{
+                return false;
+            }
+            
+        })
+        .then(data=>{
+            console.log("dodan je novi podatak");
+        })
+        .catch(err=>{
+            console.log("Podatak sa tim idom je updatean");
+        }
+        )
+    }
+    window.location="stranica.html";
+})

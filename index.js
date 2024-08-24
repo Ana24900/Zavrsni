@@ -2,6 +2,7 @@
 //Uključujemo paket "express"
 let idPopisa=1039;
 let idprof=10010;
+let iddipl=101;
 const express = require("express");
 
 // i stvaramo novu aplikaciju
@@ -36,12 +37,13 @@ app.use(body_parser.json());
 
 // Ucitavamo podatke iz datoteke
 let popis = require("./popis");
-
+let dip=require("./stud_dip");
 // Definiramo osnovnu rutu za GET zahtjev
 app.get("/", (req, res) =>
   res.send("Dobrodošli na server!")
 );
 app.get("/popis", (req, res) => res.json(popis));
+app.get("/stud_dip", (req, res) => res.json(dip));
 
 // POST ruta za dodavanje novog naloga
 app.post("/popis/novi", (req, res) => {
@@ -53,7 +55,15 @@ app.post("/popis/novi", (req, res) => {
     res.json(popis);
   
 });
-
+app.post("/stud_dip/novi", (req, res) => {
+  const podatak = req.body;
+  
+    podatak.id = iddipl;
+    iddipl++;
+    dip.push(podatak);
+    res.json(dip);
+  
+});
 // Osluškuje konekcije za zadanom portu
 app.listen(4000, () => console.log("Server sluša port 4000!"));
 
@@ -68,14 +78,14 @@ app.get("/popis_prof", (req, res) => res.json(popis2));
 app.post("/popis_prof/novi", (req, res) => {
     const podatak = req.body;
     
-      podatak.id = idPopisa;
-      idPopisa++;
+      podatak.id = idprof;
+      idprof++;
       popis2.push(podatak);
       res.json(popis2);
     
   });
 
-  app.put("/studenti/:id", (req, res) => {
+  app.put("/popis/:id", (req, res) => {
     const studid= req.params.id;
     const novi = req.body;
     console.log("Promjena studenta: ", studid);
