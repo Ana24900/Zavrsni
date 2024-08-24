@@ -85,31 +85,84 @@ app.post("/popis_prof/novi", (req, res) => {
     
   });
 
-  app.put("/popis/:id", (req, res) => {
-    const studid= req.params.id;
-    const novi = req.body;
-    console.log("Promjena studenta: ", studid);
-  
-    let nasao = false;
-    const noviNizPodataka = [];
+app.put("/popis/:id", (req, res) => {
+  const studid= req.params.id;
+  const novi = req.body;
+  console.log("Promjena studenta: ", studid);
 
-    popis.forEach(stari => {
-      if (stari.id == studid) {
-        novi.id = studid;  // Dodajemo ID u novi objekt
-        noviNizPodataka.push(novi);
-        console.log("Nasao sam podatak za promjenu");
-        nasao = true;
-      } else {
-        noviNizPodataka.push(stari);
-      }
-    });
-    if (nasao) {
-      popis = noviNizPodataka;
-      res.status(200).json({ poruka: "Uspjesno azurirani podaci!!", popis: noviNizPodataka });
+  let nasao = false;
+  const noviNizPodataka = [];
+
+  popis.forEach(stari => {
+    if (stari.id == studid) {
+      novi.id = studid;  // Dodajemo ID u novi objekt
+      noviNizPodataka.push(novi);
+      console.log("Nasao sam podatak za promjenu");
+      nasao = true;
     } else {
-      res.status(204).send();
+      noviNizPodataka.push(stari);
     }
   });
+  if (nasao) {
+    popis = noviNizPodataka;
+    res.status(200).json({ poruka: "Uspjesno azurirani podaci!!", popis: noviNizPodataka });
+  } else {
+    res.status(204).send();
+  }
+});
+
+app.put("/popis_prof/:id", (req, res) => {
+  const studid= req.params.id;
+  const novi = req.body;
+  console.log("Promjena studenta: ", studid);
+
+  let nasao = false;
+  const noviNizPodataka = [];
+
+  popis2.forEach(stari => {
+    if (stari.id == studid) {
+      novi.id = studid;  // Dodajemo ID u novi objekt
+      noviNizPodataka.push(novi);
+      console.log("Nasao sam podatak za promjenu");
+      nasao = true;
+    } else {
+      noviNizPodataka.push(stari);
+    }
+  });
+  if (nasao) {
+    popis2 = noviNizPodataka;
+    res.status(200).json({ poruka: "Uspjesno azurirani podaci!!", popis2: noviNizPodataka });
+  } else {
+    res.status(204).send();
+  }
+});
+
+
+app.put("/stud_dip/:id", (req, res) => {
+  const studid= req.params.id;
+  const novi = req.body;
+  console.log("Promjena studenta: ", studid);
+
+  let nasao = false;
+  const noviNizPodataka = [];
+
+ dip.forEach(stari => {
+    if (stari.id == studid) {
+      novi.id = studid;  // Dodajemo ID u novi objekt
+      noviNizPodataka.push(novi);
+      console.log("Nasao sam podatak za promjenu");
+      nasao = true;
+    } else {
+      noviNizPodataka.push(stari);
+    }
+  });
+  if (nasao) {
+    dip = noviNizPodataka;
+    res.status(200).json({ poruka: "Uspjesno azurirani podaci!!", dip: noviNizPodataka });
+  } else {
+    res.status(204).send();
+  }
+});
   
   
 

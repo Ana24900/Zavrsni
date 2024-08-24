@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (data.success) {
                 window.location.href = `unos_ocj.html?podatak=${encodeURIComponent(data.user.id)}`;
             } else {
-                document.getElementById("poruka").textContent = "Korisnički račun ne postoji " + data.username + " " + data.password;
+                document.getElementById("poruka").textContent = "Korisnički račun ne postoji " + data.email+ " " + data.lozinka;
             }
         } catch (er) {
             console.log("greska");

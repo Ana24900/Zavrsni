@@ -144,13 +144,15 @@ button{
     transition: background-color 0.3s ease;
 }
 #navigacijska {
+    font-family: 'Arial', sans-serif;
     background-color: #4CAF50;
     padding: 1rem;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Osigurava da traka bude iznad ostalih elemenata */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #navigacijska ul {
@@ -159,6 +161,7 @@ button{
     padding: 0;
     display: flex;
     justify-content: center;
+    gap: 10px;
 }
 
 #navigacijska .item {
@@ -172,6 +175,7 @@ button{
     background-color: #45a049;
     border-radius: 5px;
 }
+
 #pretrazivanje{
     margin-top:  50px;
     margin-bottom: 10px;

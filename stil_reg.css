@@ -14,7 +14,6 @@ body {
     height: 100vh;
     color: #333;
 }
-
 #navigacijska {
     background-color: #4CAF50;
     padding: 1rem;
@@ -22,6 +21,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
+    height: 12%;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -33,19 +33,23 @@ body {
     display: flex;
     justify-content: center;
     gap: 10px;
+    
+
 }
 
 #navigacijska .item {
     color: white;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
+    height: 100%;
 }
 
 #navigacijska .item:hover {
     background-color: #45a049;
     border-radius: 5px;
 }
+
 h2 {
     font-family: 'Playfair Display', serif;
     font-size: 2.7rem;

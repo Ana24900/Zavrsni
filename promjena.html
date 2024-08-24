@@ -1,36 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="promjena.css">
-    <title>Document</title>
+    <title>Upravljanje Podacima</title>
 </head>
 <body>
-    <div id="navigacijska">
+    <header id="navigacijska">
         <ul>
-            <li class="item" id="popis">Popisi studenata</li>
+            <li class="item" id="popis">Studenti preddiplomski</li>
+            <li class="item" id="popisdip">Studenti diplomski</li>
             <li class="item" id="promjena">Promjene podataka</li>
+            <li class="item" id="odjava">Odjava</li>
         </ul>
-    </div>
-    <form id="userForm">
-        <div class="form-group">
-            <label for="ime">Ime:</label>
-            <input type="text" id="ime" name="ime" placeholder="Unesite ime">
-            <label for="prezime">Prezime:</label>
-            <input type="text" id="prezime" name="prezime" placeholder="Unesite prezime">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Unesite email">
-            <label for="brojMobitela">Broj mobitela:</label>
-            <input type="tel" id="brojMobitela" name="brojMobitela" placeholder="Unesite broj mobitela" >
-            <label for="ured">Ured:</label>
-            <input type="text" id="ured" name="ured" placeholder="Unesite ured" >
-            <label for="lozinka">Lozinka:</label>
-            <input type="password" id="lozinka" name="lozinka" placeholder="Unesite lozinku">
+    </header>
+
+    <section id="popprom">
+        <ul>
+            <li class="item" id="lozinka1">Promjena lozinke</li>
+            <li class="item" id="ured1">Promjena ureda</li>
+            <li class="item" id="kontakt1">Promjena kontakta</li>
+        </ul>
+    </section>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close">&times;</span>
+            <div id="lozinka" class="modal-section hidden">
+                <label for="staralozinka">Unesite staru lozinku:</label><br>
+                <input type="password" id="staralozinka"><br>
+                <label for="nova-lozinka">Unesite novu lozinku:</label><br>
+                <input type="password" id="nova-lozinka"><br>
+                <button id="promjeni-lozinku">Promjena lozinke</button>
+            </div>
+            <div id="ured" class="modal-section hidden">
+                <label for="novi-ured">Unesite novi ured:</label><br>
+                <input type="text" id="novi-ured"><br>
+                <button id="promjeni-ured">Unesite ured</button>
+            </div>
+            <div id="kontakt" class="modal-section hidden">
+                <label for="novi-kontakt">Unesite novi kontakt:</label><br>
+                <input type="number" id="novi-kontakt"><br>
+                <button id="promjeni-kontakt">Unesite novi kontakt</button>
+            </div>
         </div>
-        <button  id="promjena">Promjena</button>
-    </form>
-    
-</body>
+    </div>
+
     <script src="promjena.js"></script>
+</body>
 </html>

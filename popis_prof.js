@@ -8,6 +8,7 @@ module.exports = [
         "kontakt": "0953467742",
         "ured": "B1-1",
         "odjel": "matematika",
+        "lozinka": "12345678",
         "predmeti": [
             { "naziv": "Matematika I.", "ECTS": 7 },
             { "naziv": "Kombinatorna i diskretna matematika", "ECTS": 7 },
@@ -21,9 +22,10 @@ module.exports = [
         "prezime": "Jurić",
         "polozaj": "Profesor",
         "email": "anajuric@pmf.st",
-        "kontakt": "0953467743",
+        "novi-kontakt": "0953467743",
         "ured": "B1-2",
         "odjel": "informatika",
+        "lozinka": "12345678",
         "predmeti": [
             { "naziv": "Osnove programiranja", "ECTS": 6 },
             { "naziv": "Baze podataka", "ECTS": 7 },
@@ -40,6 +42,7 @@ module.exports = [
         "kontakt": "0953467744",
         "ured": "B2-1",
         "odjel": "tehnika",
+        "lozinka": "12345678",
         "predmeti": [
             { "naziv": "Osnove elektrotehnike", "ECTS": 6 },
             { "naziv": "Elektronički sklopovi", "ECTS": 7 },
@@ -55,6 +58,7 @@ module.exports = [
         "kontakt": "0953467745",
         "ured": "B2-2",
         "odjel": "biologija",
+        "lozinka": "12345678",
         "predmeti": [
             { "naziv": "Opća biologija", "ECTS": 7 },
             { "naziv": "Mikrobiologija", "ECTS": 6 },
@@ -70,6 +74,7 @@ module.exports = [
         "kontakt": "0953467746",
         "ured": "B1-3",
         "odjel": "psihologija",
+        "lozinka": "12345678",
         "predmeti": [
             { "naziv": "Osnove psihologije", "ECTS": 5 },
             { "naziv": "Psihologija učenja", "ECTS": 6 },
@@ -85,6 +90,7 @@ module.exports = [
         "kontakt": "0953467747",
         "ured": "B3-1",
         "odjel": "matematika",
+        "lozinka": "12345678",
         "predmeti": [
             { "naziv": "Linearna algebra", "ECTS": 6 },
             { "naziv": "Vjerojatnost i statistika", "ECTS": 7 },
@@ -100,6 +106,7 @@ module.exports = [
         "kontakt": "0953467748",
         "ured": "B3-2",
         "odjel": "informatika",
+        "lozinka": "12345678",
         "predmeti": [
             { "naziv": "Operacijski sustavi", "ECTS": 6 },
             { "naziv": "Sigurnost informacija", "ECTS": 7 },
@@ -115,6 +122,7 @@ module.exports = [
         "kontakt": "0953467749",
         "ured": "B4-1",
         "odjel": "tehnika",
+        "lozinka": "12345678",
         "predmeti": [
             { "naziv": "Mehanika", "ECTS": 6 },
             { "naziv": "Termodinamika", "ECTS": 6 },
@@ -130,6 +138,7 @@ module.exports = [
         "kontakt": "0953467750",
         "ured": "B4-2",
         "odjel": "biologija",
+        "lozinka": "12345678",
         "predmeti": [
             { "naziv": "Ekologija", "ECTS": 6 },
             { "naziv": "Botanika", "ECTS": 7 },
@@ -145,6 +154,7 @@ module.exports = [
         "kontakt": "0953467751",
         "ured": "B5-1",
         "odjel": "psihologija",
+        "lozinka": "12345678",
         "predmeti": [
             { "naziv": "Razvojna psihologija", "ECTS": 6 },
             { "naziv": "Socijalna psihologija", "ECTS": 6 },
@@ -157,7 +167,7 @@ module.exports = [
         "prezime": "Horvat",
         "polozaj": "Asistent",
         "email": "karlahorvat@pmf.st",
-        "lozinka":"12345678",
+        "lozinka": "12345678",
         "kontakt": "0953467752",
         "ured": "B5-2",
         "odjel": "matematika",
@@ -167,6 +177,4 @@ module.exports = [
             { "naziv": "Diskretna matematika", "ECTS": 6 }
         ]
     }
-
-    
 ]

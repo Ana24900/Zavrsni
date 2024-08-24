@@ -5,8 +5,6 @@ body {
     padding: 0;
     color: #333;
 }
-
-/* Navigacijska traka */
 #navigacijska {
     background-color: #4CAF50;
     padding: 1rem;
@@ -14,7 +12,8 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Osigurava da traka bude iznad ostalih elemenata */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #navigacijska ul {
@@ -23,6 +22,7 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
+    gap: 10px;
 }
 
 #navigacijska .item {
@@ -36,7 +36,6 @@ body {
     background-color: #45a049;
     border-radius: 5px;
 }
-
 
 /* Glavni sadržaj */
 #glavna {

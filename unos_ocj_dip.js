@@ -45,7 +45,7 @@ function prikazstud(items) {
 document.addEventListener('DOMContentLoaded',(e)=> {
     e.preventDefault();
     document.getElementById("lista").innerHTML="";
-    fetch("http://localhost:4000/popis",{
+    fetch("http://localhost:4000/stud_dip",{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -133,7 +133,7 @@ function ocjene(a){
         stud.predmeti.push(pred);
         console.log(pred);
         
-        fetch(`http://localhost:4000/popis/${a}`,{
+        fetch(`http://localhost:4000/stud_dip/${a}`,{
             method: "PUT",
             headers: {"Content-Type": "application/json",
                 "Accept": "*/*"
@@ -202,7 +202,8 @@ document.getElementById("odjava").addEventListener("click",(e)=>{
     alert("zelite se odjaviti");
     window.location="pocetna_prof.html";
 })
-document.getElementById("popisdip").addEventListener("click",(e)=>{
+document.getElementById("popis").addEventListener("click",(e)=>{
     e.preventDefault();
-    window.location=`unos_ocj_dip.html?podatak=${podatak}`;
+
+    window.location=`unos_ocj.html?podatak=${podatak}`;
 })

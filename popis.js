@@ -367,7 +367,7 @@
       "prosjek": 0,
       "studijski_smijer": "Informatika",
       "ECTS_bodovi": 0,
-      "semestar": 3,
+      "semestar": 2,
       "primljena": false,
       "uklonjen": false,  
       "izbor": [
@@ -415,7 +415,7 @@
       "prosjek": 0,
       "studijski_smijer": "Informatika i matematika",
       "ECTS_bodovi": 0,
-      "semestar": 3,
+      "semestar": 2,
       "primljena": false,
       "uklonjen": false,  
       "izbor": [
@@ -487,7 +487,7 @@
     "prosjek": 0,
     "studijski_smijer": "Informatika",
     "ECTS_bodovi": 0,
-    "semestar": 3,
+    "semestar": 1,
     "primljena": false,
     "uklonjen": false,  
     "izbor": [
@@ -910,8 +910,5 @@
       {"naziv": "Programsko inžinjerstvo", "ocjena": 3, "ECTS": 7},
       {"naziv": "Osnove elektronike I.", "ocjena": 4, "ECTS": 3}
     ]
-    },
-        
-      
-      
+    }, 
 ];

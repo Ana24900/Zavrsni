@@ -1,53 +1,26 @@
-/* Stiliziranje forme */
-#userForm {
-    width: 100%;
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    margin-top: 100px;
+/* Generalni stilovi */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
-/* Stiliziranje svake grupe u formi */
-.form-group {
-    margin-bottom: 15px;
+.container {
+    text-align: center;
 }
 
-/* Stiliziranje labele */
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.7rem;
+    color: #888888; 
+    margin-bottom: 2rem;
     font-weight: bold;
 }
 
-/* Stiliziranje input polja */
-.form-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-/* Stiliziranje gumba */
-button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
 #navigacijska {
     background-color: #4CAF50;
     padding: 1rem;
@@ -55,7 +28,8 @@ button[type="submit"]:hover {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Osigurava da traka bude iznad ostalih elemenata */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #navigacijska ul {
@@ -64,6 +38,7 @@ button[type="submit"]:hover {
     padding: 0;
     display: flex;
     justify-content: center;
+    gap: 10px;
 }
 
 #navigacijska .item {
@@ -77,9 +52,101 @@ button[type="submit"]:hover {
     background-color: #45a049;
     border-radius: 5px;
 }
-#pretrazivanje{
-    margin-top:  50px;
-    margin-bottom: 10px;
-    align-items: center;
 
+/* Popis promjena */
+#popprom ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#popprom ul li {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 15% auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+#popprom ul li:hover {
+    background-color: #45a049;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 15% auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Sekcije unutar modala */
+.modal-section.hidden {
+    display: none;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+input[type="text"], input[type="password"], input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
 }
