@@ -22,7 +22,7 @@ module.exports = [
         "prezime": "Jurić",
         "polozaj": "Profesor",
         "email": "anajuric@pmf.st",
-        "novi-kontakt": "0953467743",
+        "kontakt": "0953467743",
         "ured": "B1-2",
         "odjel": "informatika",
         "lozinka": "12345678",
