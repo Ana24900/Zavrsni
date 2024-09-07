@@ -1,4 +1,4 @@
-var osnovniurl='http://localhost:4000/login';
+var osnovniurl='http://localhost:4000/loginadministrator';
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -6,11 +6,11 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
     
         var email = document.getElementById("user").value;
-        var lozinka = document.getElementById("lozinka").value;
+        var password = document.getElementById("lozinka").value;
         
         var podatak = {
             email: email,
-            lozinka: lozinka
+            password: password
         };
         
         try {
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log("Pronaden administrator");
                 window.location.href = 'stranica.html';
             } else {
-                document.getElementById("poruka").textContent = "Korisnički račun ne postoji " + data.username + " " + data.password;
+                document.getElementById("poruka").textContent = "Korisnički račun ne postoji " + data.email+ " " + data.password;
             }
         } catch (er) {
             console.log("greska");

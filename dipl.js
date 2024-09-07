@@ -37,7 +37,7 @@ function prikazstud(items) {
 document.addEventListener('DOMContentLoaded',(e)=> {
     e.preventDefault();
     document.getElementById("lista").innerHTML="";
-    fetch("http://localhost:4000/stud_dip",{
+    fetch("http://localhost:4000/studenti_diplomski",{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -50,41 +50,63 @@ document.addEventListener('DOMContentLoaded',(e)=> {
     })
     .then(data=>{
         for(let i of data){
-            ectsbodovi(i);
-            i.ECTS_bodovi=ectsbodovi(i);
-            if(i.predmeti.length!=0){
-            i.prosjek=prosjekfun(i);
-            }
-            lista.push(i);
             
-            
-        }
-        prikazstud(lista);
-        
-       
-    })
+            fetch(`http://localhost:4000/ocjena_dip/${i.id}`,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                },
+                
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+            console.log(data);
+            i.predmeti=data;
+           
+            for(j of data){
+                for(let j=0;j<data.length;j++){
+                    console.log(j);
+                    fetch(`http://localhost:4000/predmeti/${data[j].predmet_id}`,{
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "*/*"
+                        },
+                        
+                        })
+                        .then(res=>{
+                        return res.json();
+                        })
+                        .then(a=>{
 
+                            if(a.length>0){
+                                i.predmeti[j].naziv=a[0].naziv;
+                                i.predmeti[j].ECTS=a[0].ECTS;
+                            }
+                           
+                
+                    })   
+                }
+                
+            }
+            
+        console.log(i);
+        lista.push(i);
+        prikazstud(lista);
+        })
+    }
+    
+    }).catch(err=>{
+        console.log("greska");
+    })      
+    
+    
 })
 
-function ectsbodovi(i){
-    var broj=0;
-    if(i.predmeti.length!=0){
-    for(let j=0;j<i.predmeti.length;j++){
-        broj+=i.predmeti[j].ECTS;
-    }
-}
-    return broj;
-}
 
-function prosjekfun(a){
-    let pros=0;
-
-    for(let i=0;i<5;i++){
-        pros+=a.predmeti[i].ocjena;
-    }
-    pros=pros/5;
-    return pros;
-}
 function prikaziDetalje(id,element) {
     const roditelj = element.closest('tr');
     let detalji = roditelj.nextElementSibling;
@@ -222,7 +244,7 @@ document.getElementById("visa").addEventListener("click",(e)=>{
     for(let i=0;i<visagod.length;i++){
         visagod[i].primljena=false;
         visagod[i].semestar++;
-        fetch(`http://localhost:4000/stud_dip/${visagod[i].id}`,{
+        fetch(`http://localhost:4000/studenti_diplomski/${visagod[i].id}`,{
             method: "PUT",
             headers:{
                 "Content-Type": "application/json",
@@ -252,7 +274,44 @@ document.getElementById("visa").addEventListener("click",(e)=>{
 })
 
 
-
+function brisanje(id){
+    
+    if(confirm('Da li ste sigurni da želite obrisati?')){
+            fetch(`http://localhost:4000/studenti_diplomskog/${id}`,{
+                method: "DELETE",
+                headers:{ 'Content-Type': 'application/json',
+                'Accept': '*/*'}
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                console.log(data);
+                window.location.href = window.location.href;
+            })
+            .catch(err=>{
+                console.log("greska");
+            })
+            fetch(`http://localhost:4000/ocjene_dip/${id}`,{
+                method: "DELETE",
+                headers:{ 'Content-Type': 'application/json',
+                'Accept': '*/*'}
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                console.log(data);
+                window.location.href = window.location.href;
+            })
+            .catch(err=>{
+                console.log("greska");
+            })
+    }
+    else{
+        alert("odustali ste od brisanja");
+    }
+}
 
 
 document.getElementById("reg").addEventListener("click",(e)=>{
@@ -267,4 +326,9 @@ document.getElementById("popprof").addEventListener("click",(e)=>{
 document.getElementById("popis").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location.href = 'stranica.html';
+})
+document.getElementById("odjava").addEventListener("click",(e)=>{
+    e.preventDefault();
+    alert("zelite se odjaviti");
+    window.location="pocetna_prof.html";
 })

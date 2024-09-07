@@ -98,7 +98,7 @@ function sortprikaz(listasort) {
 document.addEventListener('DOMContentLoaded',(e)=> {
     e.preventDefault();
     document.getElementById("lista").innerHTML="";
-    fetch("http://localhost:4000/popis",{
+    fetch("http://localhost:4000/baza",{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -111,120 +111,255 @@ document.addEventListener('DOMContentLoaded',(e)=> {
     })
     .then(data=>{
         for(let i of data){
-            bodovanje(i);
-            ectsbodovi(i);
-            i.ECTS_bodovi=ectsbodovi(i);
-            i.prosjek=prosjekfun(i);
-            lista.push(i);
-            prikazstud(lista);
+            bodovanje(i,izbor1,1);
+            bodovanje(i,izbor2,2);
+            bodovanje(i,izbor3,3);
+            fetch(`http://localhost:4000/ocjena/${i.id}`,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                },
+                
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+            console.log(data);
+            i.predmeti=data;
+           
+            for(let j=0;j<data.length;j++){
+                console.log(j);
+                fetch(`http://localhost:4000/predmeti/${data[j].predmet_id}`,{
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "*/*"
+                    },
+                    
+                    })
+                    .then(res=>{
+                    return res.json();
+                    })
+                    .then(a=>{
+                        i.predmeti[j].naziv=a[0].naziv;
+                        i.predmeti[j].ECTS=a[0].ECTS;
+                        
+                        
+                   
+                })
+               
+                
+            }
             
-        }
+            
         
-       
-    })
+        console.log(i);
+        lista.push(i);
+        prikazstud(lista);
+        })
+    }
+    
 
+    }).catch(err=>{
+        console.log("greska");
+    })      
+    
+    
 })
+
+       
+
+
 function ispisbodova(a,j){
   if(a==inf){
-      for(let i=0;i<3;i++){
-          if(inf[j].izbor[i].naziv=="Nastavnički informatika"){
-              return inf[j].izbor[i].bodovi;
+          if(inf[j].izbor1=="Nastavnički informatika"){
+              return inf[j].bodovi1;
           }
-      }
+          else if(inf[j].izbor2=="Nastavnički informatika"){
+                return inf[j].bodovi2;
+        }
+        else if(inf[j].izbor3=="Nastavnički informatika"){
+            return inf[j].bodovi3;
+        }
+
   }
   else if(a==infiteh){
-      for(let i=0;i<3;i++){
-          if(infiteh[j].izbor[i].naziv=="Nastavnički informatika i tehnika"){
-              return infiteh[j].izbor[i].bodovi;
+          if(infiteh[j].izbor1=="Nastavnički informatika i tehnika"){
+              return infiteh[j].bodovi1;
           }
-      }
+          else if(infiteh[j].izbor2=="Nastavnički informatika i tehnika"){
+            return infiteh[j].bodovi2;
+        }
+        else if(infiteh[j].izbor3=="Nastavnički informatika i tehnika"){
+            return infiteh[j].bodovi3;
+        }
+      
   }
   else{
-      for(let i=0;i<3;i++){
-          if(baze[j].izbor[i].naziv=="Informatika baze podataka"){
-              return baze[j].izbor[i].bodovi;
+          if(baze[j].izbor1=="Informatika baze podataka"){
+              return baze[j].bodovi1;
           }
-      }
+          else if(baze[j].izbor2=="Informatika baze podataka"){
+            return baze[j].bodovi2;
+        }
+        else if(baze[j].izbor3=="Informatika baze podataka"){
+            return baze[j].bodovi3;
+        }
   }
 }
-function ectsbodovi(i){
-    var broj=0;
-    for(let j=0;j<i.predmeti.length;j++){
-        broj+=i.predmeti[j].ECTS;
+
+function bodovanje(a,n,br){
+    if(br==1){
+        if(n=="Nastavnički informatika"){
+            a.bodovi1=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
+        }
+        else if(n=="Nastavnički informatika i tehnika"){
+            a.bodovi1=(180*((a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2))/a.godina_studiranja;
+        }
+        else{
+            a.bodovi1=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
+        }
     }
-    return broj;
-}
-function bodovanje(a){
-  for(let i=0;i<3;i++){
-      if(a.izbor[i].naziv=="Nastavnički informatika"){
-          a.izbor[i].bodovi=(180*(a.predmeti[2].ocjena+a.predmeti[3].ocjena)/2)/a.godina_studiranja;
-      }
-      else if(a.izbor[i].naziv=="Nastavnički informatika i tehnika"){
-          a.izbor[i].bodovi=(180*((a.predmeti[3].ocjena+a.predmeti[4].ocjena)/2))/a.godina_studiranja;
-      }
-      else{
-          a.izbor[i].bodovi=(180*(a.predmeti[1].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
-      }
+    else if(br==2){
+        if(n=="Nastavnički informatika"){
+            a.bodovi2=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
+        }
+        else if(n=="Nastavnički informatika i tehnika"){
+            a.bodovi2=(180*((a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2))/a.godina_studiranja;
+        }
+        else{
+            a.bodovi2=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
+        }
+        
+    }
+    else
+    {if(n=="Nastavnički informatika"){
+        a.bodovi3=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
+    }
+    else if(n=="Nastavnički informatika i tehnika"){
+        a.bodovi3=(180*((a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2))/a.godina_studiranja;
+    }
+    else{
+        a.bodovi3=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
+    }
+
+    }
   }
-}
-function prosjekfun(a){
-    let pros=0;
-    for(let i=0;i<5;i++){
-        pros+=a.predmeti[i].ocjena;
-    }
-    pros=pros/5;
-    return pros;
-}
+
 function upad(a,b){
     let id=0;
-    let min=lista[a].izbor[b].bodovi;
+    let min=lista[a].bodovi1;
     let prosjek1=lista[a].prosjek;
     let ind=0;
     let pr=false;
     let niz=[];
     let smijer="";
-    if(lista[a].izbor[b].naziv=="Nastavnički informatika"){
-        niz=inf;
-        smijer="Nastavnički informatika";
-        if(niz.length<7){
-            lista[a].primljena=true;
-            niz.push(lista[a]);
-            return true;
+
+    if(b==0){
+        if(lista[a].izbor1=="Nastavnički informatika"){
+            niz=inf;
+            smijer="Nastavnički informatika";
+            if(niz.length<7){
+                lista[a].primljena=true;
+                niz.push(lista[a]);
+                return true;
+            }
+        }
+        else if(lista[a].izbor1=="Nastavnički informatika i tehnika"){
+            niz=infiteh;
+            smijer="Nastavnički informatika i tehnika";
+            if(niz.length<8){
+                lista[a].primljena=true;
+                niz.push(lista[a]);
+                return true;
+            }
+        }
+        else{
+            niz=baze;
+            smijer="Informatika baze podataka";
+            if(niz.length<8){
+                lista[a].primljena=true;
+                niz.push(lista[a]);
+                return true;
+    
+            }
         }
     }
-    else if(lista[a].izbor[b].naziv=="Nastavnički informatika i tehnika"){
-        niz=infiteh;
-        smijer="Nastavnički informatika i tehnika";
-        if(niz.length<8){
-            lista[a].primljena=true;
-            niz.push(lista[a]);
-            return true;
+    else if(b==1){
+        if(lista[a].izbor2=="Nastavnički informatika"){
+            niz=inf;
+            smijer="Nastavnički informatika";
+            if(niz.length<7){
+                lista[a].primljena=true;
+                niz.push(lista[a]);
+                return true;
+            }
+        }
+        else if(lista[a].izbor2=="Nastavnički informatika i tehnika"){
+            niz=infiteh;
+            smijer="Nastavnički informatika i tehnika";
+            if(niz.length<8){
+                lista[a].primljena=true;
+                niz.push(lista[a]);
+                return true;
+            }
+        }
+        else{
+            niz=baze;
+            smijer="Informatika baze podataka";
+            if(niz.length<8){
+                lista[a].primljena=true;
+                niz.push(lista[a]);
+                return true;
+    
+            }
         }
     }
     else{
-        niz=baze;
-        smijer="Informatika baze podataka";
-        if(niz.length<8){
-            lista[a].primljena=true;
-            niz.push(lista[a]);
-            return true;
-
+        if(lista[a].izbor3=="Nastavnički informatika"){
+            niz=inf;
+            smijer="Nastavnički informatika";
+            if(niz.length<7){
+                lista[a].primljena=true;
+                niz.push(lista[a]);
+                return true;
+            }
+        }
+        else if(lista[a].izbor3=="Nastavnički informatika i tehnika"){
+            niz=infiteh;
+            smijer="Nastavnički informatika i tehnika";
+            if(niz.length<8){
+                lista[a].primljena=true;
+                niz.push(lista[a]);
+                return true;
+            }
+        }
+        else{
+            niz=baze;
+            smijer="Informatika baze podataka";
+            if(niz.length<8){
+                lista[a].primljena=true;
+                niz.push(lista[a]);
+                return true;
+    
+            }
         }
     }
-
     for(let j=0;j<niz.length;j++){
         console.log(niz[j].ime);
-        for(let h=0;h<3;h++){
-            if(niz[j].izbor[h].naziv==smijer){
+        for(let h=1;h<4;h++){
+            if(niz[j].izbor+h==smijer){
                 console.log(id);
-                if(niz[j].izbor[h].bodovi<min){
-                    min=niz[j].izbor[h].bodovi;
+                if(niz[j].bodovi+h<min){
+                    min=niz[j].bodovi+h;
                     ind=j;
                     id=niz[j].id;
                     pr=true;
                     prosjek1=niz[j].prosjek;
                 }
-                else if(niz[j].izbor[h].bodovi==min){
+                else if(niz[j].bodovi+h==min){
                     if(prosjek1>niz[j].prosjek){
                         min=niz[j].izbor[h].bodovi;
                         ind=j;
@@ -238,11 +373,11 @@ function upad(a,b){
         }
     }
     if(pr){
-        if(lista[a].izbor[b].naziv=="Nastavnički informatika"){
+        if(lista[a].izbori[b].naziv=="Nastavnički informatika"){
             lista[a].primljena=true;
             inf[ind]=lista[a];
         }
-        else if(lista[a].izbor[b].naziv=="Nastavnički informatika i tehnika"){
+        else if(lista[a].izbori[b].naziv=="Nastavnički informatika i tehnika"){
             lista[a].primljena=true;
             infiteh[ind]=lista[a];
         }
@@ -320,9 +455,9 @@ function prikaziDetalje(id,element) {
             <p><strong>Semestar:</strong>${i.semestar}</p>
             <p><strong>ECTS bodovi:</strong> ${i.ECTS_bodovi}</p>
             <h3>Izbori</h3>
-            <p><strong>1. ${i.izbor[0].naziv}</strong> Broj bodova: <strong>${i.izbor[0].bodovi}</strong></p>
-            <p><strong>2. ${i.izbor[1].naziv}</strong> Broj bodova: <strong>${i.izbor[1].bodovi}</strong></p>
-            <p><strong>3. ${i.izbor[2].naziv}</strong> Broj bodova: <strong>${i.izbor[2].bodovi}</strong></p>
+            <p><strong>1. ${i.izbor1}</strong> Broj bodova: <strong>${i.bodovi1}</strong></p>
+            <p><strong>2. ${i.izbor2}</strong> Broj bodova: <strong>${i.bodovi2}</strong></p>
+            <p><strong>3. ${i.izbor3}</strong> Broj bodova: <strong>${i.bodovi3}</strong></p>
             <h3>Predmeti</h3>
             ${i.predmeti.map(predmet => `
                 <p><strong>${predmet.naziv}</strong> ocjena: <strong>${predmet.ocjena}</strong></p>
@@ -351,7 +486,22 @@ document.getElementById("pretrazivanje").addEventListener("keyup", (e) => {
 function brisanje(id){
     
     if(confirm('Da li ste sigurni da želite obrisati?')){
-            fetch(`http://localhost:4000/popis/${id}`,{
+            fetch(`http://localhost:4000/studenti/${id}`,{
+                method: "DELETE",
+                headers:{ 'Content-Type': 'application/json',
+                'Accept': '*/*'}
+            })
+            .then(res=>{
+                return res.json();
+            })
+            .then(data=>{
+                console.log(data);
+                window.location.href = window.location.href;
+            })
+            .catch(err=>{
+                console.log("greska");
+            })
+            fetch(`http://localhost:4000/ocjene/${id}`,{
                 method: "DELETE",
                 headers:{ 'Content-Type': 'application/json',
                 'Accept': '*/*'}
@@ -372,6 +522,7 @@ function brisanje(id){
     }
 }
 function uklanjanje(a){
+    a.ECTS_bodovi=0;
     for(let i=0;i<inf.length;i++){
         if(inf[i].id==a){
             inf.splice(i,1);
@@ -423,7 +574,8 @@ function uklanjanje(a){
     sortprikaz(inf);
     sortprikaz(infiteh);
     sortprikaz(baze);
-    fetch(`http://localhost:4000/popis/${a}`,{
+    
+    fetch(`http://localhost:4000/studenti/${a}`,{
         method: "PUT",
         headers:{
             "Content-Type": "application/json",
@@ -459,7 +611,7 @@ document.getElementById("up").addEventListener("click",(e)=>{
         inf[i].primljena=false;
         inf[i].predmeti=[];
 
-            fetch("http://localhost:4000/stud_dip/novi",{
+            fetch("http://localhost:4000/studenti_diplomski/novi",{
                 method: "POST",
                 headers:{
                     "Content-Type": "application/json",
@@ -478,7 +630,7 @@ document.getElementById("up").addEventListener("click",(e)=>{
             .catch(err=>{
                 console.log(err);
             })
-            fetch(`http://localhost:4000/popis/${inf[i].id}`,{
+            fetch(`http://localhost:4000/studenti/${inf[i].id}`,{
                 method: "DELETE",
                 headers:{ 'Content-Type': 'application/json',
                 'Accept': '*/*'}
@@ -502,7 +654,7 @@ document.getElementById("up").addEventListener("click",(e)=>{
         infiteh[i].primljena=false;
         infiteh[i].predmeti=[];
         
-            fetch("http://localhost:4000/stud_dip/novi",{
+            fetch("http://localhost:4000/studenti_diplomski/novi",{
                 method: "POST",
                 headers:{
                     "Content-Type": "application/json",
@@ -521,7 +673,7 @@ document.getElementById("up").addEventListener("click",(e)=>{
             .catch(err=>{
                 console.log(err);
             })
-            fetch(`http://localhost:4000/popis/${infiteh[i].id}`,{
+            fetch(`http://localhost:4000/studenti/${infiteh[i].id}`,{
                 method: "DELETE",
                 headers:{ 'Content-Type': 'application/json',
                 'Accept': '*/*'}
@@ -546,7 +698,7 @@ document.getElementById("up").addEventListener("click",(e)=>{
         baze[i].primljena=false;
         baze[i].predmeti=[];
 
-            fetch("http://localhost:4000/stud_dip/novi",{
+            fetch("http://localhost:4000/studenti_diplomski/novi",{
                 method: "POST",
                 headers:{
                     "Content-Type": "application/json",
@@ -565,7 +717,7 @@ document.getElementById("up").addEventListener("click",(e)=>{
             .catch(err=>{
                 console.log(err);
             })
-            fetch(`http://localhost:4000/popis/${baze[i].id}`,{
+            fetch(`http://localhost:4000/studenti/${baze[i].id}`,{
                 method: "DELETE",
                 headers:{ 'Content-Type': 'application/json',
                 'Accept': '*/*'}
@@ -680,7 +832,7 @@ document.getElementById("visa").addEventListener("click",(e)=>{
     for(let i=0;i<visagod.length;i++){
         visagod[i].primljena=false;
         visagod[i].semestar++;
-        fetch(`http://localhost:4000/popis/${visagod[i].id}`,{
+        fetch(`http://localhost:4000/studenti/${visagod[i].id}`,{
             method: "PUT",
             headers:{
                 "Content-Type": "application/json",
@@ -711,4 +863,9 @@ document.getElementById("visa").addEventListener("click",(e)=>{
 document.getElementById("dip").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location="dipl.html";
+})
+document.getElementById("odjava").addEventListener("click",(e)=>{
+    e.preventDefault();
+    alert("zelite se odjaviti");
+    window.location="pocetna_prof.html";
 })

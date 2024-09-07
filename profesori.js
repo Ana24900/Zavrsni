@@ -2,7 +2,7 @@ let lista=[];
 document.addEventListener('DOMContentLoaded',(e)=> {
     e.preventDefault();
     document.getElementById("lista").innerHTML="";
-    fetch("http://localhost:4000/popis_prof",{
+    fetch("http://localhost:4000/profesori",{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -124,7 +124,7 @@ function prikaziTabelu(items) {
 function brisanjeprof(id){
     
     if(confirm('Da li ste sigurni da želite obrisati?')){
-            fetch(`http://localhost:4000/popis_prof/${id}`,{
+            fetch(`http://localhost:4000/profesori/${id}`,{
                 method: "DELETE",
                 headers:{ 'Content-Type': 'application/json',
                 'Accept': '*/*'}
@@ -144,3 +144,12 @@ function brisanjeprof(id){
         alert("odustali ste od brisanja");
     }
 }
+document.getElementById("dip").addEventListener("click",(e)=>{
+    e.preventDefault();
+    window.location="dipl.html";
+})
+document.getElementById("odjava").addEventListener("click",(e)=>{
+    e.preventDefault();
+    alert("zelite se odjaviti");
+    window.location="pocetna_prof.html";
+})

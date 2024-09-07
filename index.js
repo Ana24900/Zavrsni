@@ -3,15 +3,52 @@
 let idPopisa=1039;
 let idprof=10010;
 let iddipl=101;
-const express = require("express");
+import express from 'express';
 
+
+import { 
+  getNotes, 
+  getNote, 
+  createStudent, 
+  updateStudent,
+  getSubjects, 
+  getSubject, 
+  diplocj,
+  getprofesori,
+  hvatanjeprofid,
+  dipocjena,
+  deleteOcjene,
+  deleteOcjeneDiplomski,
+  deleteStudentdip,
+  updateStudentDiplomski,
+  updateprofesori,
+  createDiplomskiStudent,
+  loginadministrator,
+  getdiplomskistud,
+  getUserByUsername,
+  createSubject, 
+  getChoices, 
+  getChoice, 
+  createChoice, 
+  getStudentChoices, 
+  getStudentChoice, 
+  createStudentChoice, 
+  getGrades, 
+  getGrade, 
+  createPredmet,
+  createGrade, 
+  getLectures, 
+  getLecture, 
+  dodajIliAzurirajOcjenu,
+  dodajIliAzurirajOcjenudip,
+  createLecture,  
+  createProfessor,
+  deleteStudent, 
+  hvatanjeid
+} from "./baza.js";
 // i stvaramo novu aplikaciju
 const app = express();
-const administratiri=[
-  { email: 'iva', lozinka: 'iva123' },
-  { email: 'lara', lozinka: '12345678' },
-  { email: 'ana', lozinka: 'ana123'}
-];
+
 app.use(function (req, res, next) {
   // Stranice (izvori) koji imaju pristup
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -31,182 +68,402 @@ app.use(function (req, res, next) {
   next();
 });
 
-const body_parser = require("body-parser");
+import body_parser from "body-parser";
 // obradjuje zahtjeve tipa (application/json content-type)
 app.use(body_parser.json());
 
 // Ucitavamo podatke iz datoteke
-let popis = require("./popis");
-let dip=require("./stud_dip");
+// let popis = require("./popis");
+// let dip=require("./stud_dip");
 // Definiramo osnovnu rutu za GET zahtjev
 app.get("/", (req, res) =>
   res.send("Dobrodošli na server!")
 );
-app.get("/popis", (req, res) => res.json(popis));
-app.get("/stud_dip", (req, res) => res.json(dip));
+app.get("/baza", async(req, res) =>{
+  const studenti=await getNotes()
+  res.send(studenti);
+});
+app.get("/baza/:id", async(req, res) =>{
+  const id=req.params.id;
+  const student=await getNote(id)
+  res.send(student);
+});
 
-// POST ruta za dodavanje novog naloga
-app.post("/popis/novi", (req, res) => {
-  const podatak = req.body;
-  
-    podatak.id = idPopisa;
-    idPopisa++;
-    popis.push(podatak);
-    res.json(popis);
-  
+app.get("/ocjena", async(req, res) =>{
+  const id=req.params.id;
+  const ocjena=await getGrades(id)
+  res.send(ocjena);
 });
-app.post("/stud_dip/novi", (req, res) => {
-  const podatak = req.body;
-  
-    podatak.id = iddipl;
-    iddipl++;
-    dip.push(podatak);
-    res.json(dip);
-  
+
+app.get("/ocjena/:id", async(req, res) =>{
+  const id=req.params.id;
+  const ocjena=await getGrade(id)
+  res.send(ocjena);
 });
+app.get("/ocjena_dip/:id", async(req, res) =>{
+  const id=req.params.id;
+  const ocjena=await dipocjena(id)
+  res.send(ocjena);
+});
+
+app.get("/nastava", async(req, res) =>{
+  const id=req.params.id;
+  const nastava=await getLectures()
+  res.send(nastava);
+});
+app.get("/nastava/:id", async(req, res) =>{
+  const id=req.params.id;
+  const nastava=await getLecture(id)
+  res.send(nastava);
+});
+
+app.get('/studenti_diplomski', async (req, res) => {
+  try {
+    const studenti = await getdiplomskistud();
+    res.json(studenti);
+  } catch (error) {
+    console.error('Greška prilikom dohvaćanja podataka:', error);
+    res.status(500).json({ error: 'Greška pri dohvaćanju podataka' });
+  }
+});
+
+app.post("/baza/novi", async (req, res) => {
+  try {
+    const { student } = req.body;
+
+    // Kreiraj novog studenta
+    const note = await createStudent(student);
+
+    // Dohvati ID zadnje unesene stavke
+    const zadnji = await hvatanjeid();
+
+    // Vratiti ID novog studenta kao odgovor
+    res.status(201).json({ id: zadnji.id, message: 'Student uspješno unesen!' });
+  } catch (error) {
+    console.error('Greška pri unosu studenta:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri unosu studenta.' });
+  }
+});
+app.post("/stud_dip/novi", async (req, res) => {
+  try {
+    const { student } = req.body;
+
+    // Kreiraj novog studenta
+    const note = await createDiplomskiStudent(student);
+
+    // Dohvati ID zadnje unesene stavke
+    const zadnji = await hvatanjeid();
+
+    // Vratiti ID novog studenta kao odgovor
+    res.status(201).json({ id: zadnji.id, message: 'Student uspješno unesen!' });
+  } catch (error) {
+    console.error('Greška pri unosu studenta:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri unosu studenta.' });
+  }
+});
+app.post("/profesori/novi", async (req, res) => {
+  try {
+      const { profesor } = req.body;
+    console.log(profesor);
+      if (!profesor) {
+          return res.status(400).send({ message: 'Podaci o profesoru nisu prosleđeni.' });
+      }
+
+      const result = await createProfessor(profesor);
+      const zadnji = await hvatanjeprofid();  // Treba da se obezbedi da ova funkcija vraća ID poslednjeg unosa
+
+      res.status(201).json({ id: zadnji.id, message: 'Profesor uspješno unesen!' });
+  } catch (error) {
+      console.error('Greška pri unosu profesora:', error);
+      res.status(500).send({ message: 'Došlo je do pogreške pri unosu profesora.' });
+  }
+});
+
+app.post("/predmeti/novi", async (req, res) => {
+  try {
+    const { predmet } = req.body;
+    
+    // Pozivanje funkcije createPredmet za unos predmeta u bazu
+    const result = await createPredmet(predmet);
+
+    // Provjera da li je unos uspješan
+    if (result.affectedRows > 0) {
+      res.status(201).send({ message: "Predmet uspješno unesen", predmetId: result.insertId });
+    } else {
+      res.status(500).send({ message: "Došlo je do pogreške prilikom unosa predmeta" });
+    }
+  } catch (err) {
+    console.error('Greška pri unosu predmeta:', err);
+    res.status(500).send({ message: "Greška pri unosu predmeta" });
+  }
+});
+app.get("/izbor", async(req, res) =>{
+  const izbori=await getChoices()
+  res.send(izbori);
+});
+app.get("/profesori", async(req, res) =>{
+  const prof=await getprofesori();
+  res.send(prof);
+});
+
+app.get("/studenti_izbor", async(req, res) =>{
+  const izbori=await getStudentChoices();
+  res.send(izbori);
+});
+
+
+app.get("/predmeti", async(req, res) =>{
+  const predmeti=await getSubjects()
+  res.send(predmeti);
+});
+app.get("/predmeti/:id", async(req, res) =>{
+  const id=req.params.id;
+  const predmet=await getSubject(id)
+  res.send(predmet);
+});
+
+
+app.delete('/studenti/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await deleteStudent(id);
+    if (result.affectedRows > 0) {
+      res.status(200).send({ message: `Student s ID-om ${id} je uspješno obrisan.` });
+    } else {
+      res.status(404).send({ message: `Student s ID-om ${id} nije pronađen.` });
+    }
+  } catch (error) {
+    console.error('Greška pri brisanju studenta:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri brisanju studenta.' });
+  }
+});
+app.delete('/studenti_diplomskog/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await deleteStudentdip(id);
+    if (result.affectedRows > 0) {
+      res.status(200).send({ message: `Student s ID-om ${id} je uspješno obrisan.` });
+    } else {
+      res.status(404).send({ message: `Student s ID-om ${id} nije pronađen.` });
+    }
+  } catch (error) {
+    console.error('Greška pri brisanju studenta:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri brisanju studenta.' });
+  }
+});
+app.put('/studenti/:id', async (req, res) => {
+  const { id } = req.params; 
+  const studentData = req.body;
+
+  try {
+    studentData.id = id; 
+    const result = await updateStudent(studentData);
+
+    if (result.affectedRows > 0) {
+      res.status(200).send({ message: `Student s ID-om ${id} je uspješno ažuriran.` });
+    } else {
+      res.status(404).send({ message: `Student s ID-om ${id} nije pronađen.` });
+    }
+  } catch (error) {
+    console.error('Greška pri ažuriranju studenta:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri ažuriranju studenta.' });
+  }
+});
+app.post('/studenti_diplomski/novi', async (req, res) => {
+  const studentData = req.body; // Podaci o studentu iz tijela zahtjeva
+  try {
+    // Primljena vrijednost (ako nije dana, postavi na 'false')
+    if (studentData.primljena === undefined) {
+      studentData.primljena = false;
+    }
+    
+    // Pozivanje funkcije za unos novog studenta
+    const result = await createDiplomskiStudent(studentData);
+
+    // Provjera uspješnosti unosa
+    if (result.affectedRows > 0) {
+      res.status(201).send({ message: `Student ${studentData.ime} ${studentData.prezime} je uspješno dodan.` });
+    } else {
+      res.status(500).send({ message: 'Došlo je do pogreške pri unosu studenta.' });
+    }
+  } catch (error) {
+    console.error('Greška pri unosu studenta:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri unosu studenta.' });
+  }
+});
+app.post('/loginprofesori', async (req, res) => {
+  const { email, password } = req.body;  // Ovdje koristi 'password', a ne 'lozinka'
+
+  try {
+    const user = await getUserByUsername(email);
+
+    if (user.email==email && password==user.lozinka) {
+      res.json({ success: true, user });  // Vrati korisnika (user) da bi ga frontend mogao koristiti
+    } else {
+      res.json({ success: false, email,password });
+    }
+  } catch (error) {
+    console.error('Greška pri prijavi:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri prijavi.' });
+  }
+});
+app.post('/loginadministrator', async (req, res) => {
+  const { email, password } = req.body;  // Ovdje koristi 'password', a ne 'lozinka'
+
+  try {
+    const user = await loginadministrator(email);
+
+    if (user.email==email && password==user.lozinka) {
+      res.json({ success: true, user });  // Vrati korisnika (user) da bi ga frontend mogao koristiti
+    } else {
+      res.json({ success: false,email,password });
+    }
+  } catch (error) {
+    console.error('Greška pri prijavi:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri prijavi.' });
+  }
+});
+app.put('/studenti_diplomski/:id', async (req, res) => {
+  const { id } = req.params; // ID studenta iz URL parametra
+  const studentData = req.body; // Podaci koje želite ažurirati
+
+  try {
+    studentData.id = id; // Osiguravamo da ID iz URL-a bude korišten za ažuriranje
+    const result = await updateStudentDiplomski(studentData);
+
+    if (result.affectedRows > 0) {
+      res.status(200).send({ message: `Student s ID-om ${id} je uspješno ažuriran.` });
+    } else {
+      res.status(404).send({ message: `Student s ID-om ${id} nije pronađen.` });
+    }
+  } catch (error) {
+    console.error('Greška pri ažuriranju studenta diplomskih studija:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri ažuriranju studenta diplomskih studija.' });
+  }
+});
+app.put('/profesori/:id', async (req, res) => {
+  const { id } = req.params; // ID studenta iz URL parametra
+  const profesorData = req.body; // Podaci koje želite ažurirati
+
+  try {
+    profesorData.id = id; // Osiguravamo da ID iz URL-a bude korišten za ažuriranje
+    const result = await updateprofesori( profesorData);
+
+    if (result.affectedRows > 0) {
+      res.status(200).send({ message: `Student s ID-om ${id} je uspješno ažuriran.` });
+    } else {
+      res.status(404).send({ message: `Student s ID-om ${id} nije pronađen.` });
+    }
+  } catch (error) {
+    console.error('Greška pri ažuriranju studenta diplomskih studija:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri ažuriranju studenta diplomskih studija.' });
+  }
+});
+app.delete('/ocjene/:studentId', async (req, res) => {
+  const { studentId } = req.params; // ID studenta iz URL parametra
+
+  try {
+    const result = await deleteOcjene(studentId);
+
+    if (result.affectedRows > 0) {
+      res.status(200).send({ message: `Ocjene za studenta s ID-om ${studentId} su uspješno izbrisane.` });
+    } else {
+      res.status(404).send({ message: `Ocjene za studenta s ID-om ${studentId} nisu pronađene.` });
+    }
+  } catch (error) {
+    console.error('Greška pri brisanju ocjena:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri brisanju ocjena.' });
+  }
+});
+app.delete('/ocjene_dip/:studentId', async (req, res) => {
+  const { studentId } = req.params; // ID studenta iz URL parametra
+
+  try {
+    const result = await deleteOcjeneDiplomski(studentId);
+
+    if (result.affectedRows > 0) {
+      res.status(200).send({ message: `Ocjene za studenta s ID-om ${studentId} su uspješno izbrisane.` });
+    } else {
+      res.status(404).send({ message: `Ocjene za studenta s ID-om ${studentId} nisu pronađene.` });
+    }
+  } catch (error) {
+    console.error('Greška pri brisanju ocjena:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri brisanju ocjena.' });
+  }
+});
+app.post('/ocjene/novi', async (req, res) => {
+  const ocjenaData = req.body; // Podaci o ocjeni iz tijela zahtjeva
+  console.log(ocjenaData);
+
+  try {
+    // Provjera da li su svi potrebni podaci prisutni
+    if (!ocjenaData.student_id || !ocjenaData.predmet_id || ocjenaData.ocjena === undefined) {
+      return res.status(400).send({ message: 'Nedostaju podaci za unos ocjene.', success: false });
+    }
+
+    // Pozivanje funkcije koja će umetnuti ili ažurirati ocjenu
+    const result = await dodajIliAzurirajOcjenu(ocjenaData);
+
+    if (result.affectedRows > 0) {
+      if (result.changedRows > 0) {
+        // Ako je ažurirano, vrati poruku i `false` jer je to ažuriranje
+        return res.status(200).send({ 
+          message: `Ocjena za studenta ID ${ocjenaData.student_id} i predmet ID ${ocjenaData.predmet_id} je uspješno ažurirana.`,
+          success: false
+        });
+      } else {
+        // Ako je umetnuto, vrati poruku i `true` jer je to unos
+        return res.status(201).send({ 
+          message: `Ocjena za studenta ID ${ocjenaData.student_id} i predmet ID ${ocjenaData.predmet_id} je uspješno dodana.`,
+          success: true
+        });
+      }
+    } else {
+      return res.status(500).send({ message: 'Došlo je do pogreške pri unosu ili ažuriranju ocjene.', success: false });
+    }
+  } catch (error) {
+    console.error('Greška pri unosu ili ažuriranju ocjene:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri unosu ili ažuriranju ocjene.', success: false });
+  }
+});
+
+app.post('/ocjene_dip/novi', async (req, res) => {
+  const ocjenaData = req.body; // Podaci o ocjeni iz tijela zahtjeva
+  try {
+    // Provjera da li su svi potrebni podaci prisutni
+    if (!ocjenaData.student_id || !ocjenaData.predmet_id || ocjenaData.ocjena === undefined) {
+      return res.status(400).send({ message: 'Nedostaju podaci za unos ocjene.', success: false });
+    }
+
+    // Pozivanje funkcije koja će umetnuti ili ažurirati ocjenu
+    const result = await dodajIliAzurirajOcjenudip(ocjenaData);
+
+    if (result.affectedRows > 0) {
+      if (result.changedRows > 0) {
+        // Ako je ažurirano
+        return res.status(200).send({ 
+          message: `Ocjena za studenta ID ${ocjenaData.student_id} i predmet ID ${ocjenaData.predmet_id} je uspješno ažurirana.`,
+          success: true
+        });
+      } else {
+        // Ako je umetnuto
+        return res.status(201).send({ 
+          message: `Ocjena za studenta ID ${ocjenaData.student_id} i predmet ID ${ocjenaData.predmet_id} je uspješno dodana.`,
+          success: false
+        });
+      }
+    } else {
+      return res.status(500).send({ message: 'Došlo je do pogreške pri unosu ili ažuriranju ocjene.', success: false });
+    }
+  } catch (error) {
+    console.error('Greška pri unosu ili ažuriranju ocjene:', error);
+    res.status(500).send({ message: 'Došlo je do pogreške pri unosu ili ažuriranju ocjene.', success: false });
+  }
+});
+
+
+
+
 // Osluškuje konekcije za zadanom portu
 app.listen(4000, () => console.log("Server sluša port 4000!"));
 
-let popis2 = require("./popis_prof");
-
-// Definiramo osnovnu rutu za GET zahtjev
-app.get("/", (req, res) =>
-  res.send("Dobrodošli na server!")
-);
-app.get("/popis_prof", (req, res) => res.json(popis2));
-
-app.post("/popis_prof/novi", (req, res) => {
-    const podatak = req.body;
-    
-      podatak.id = idprof;
-      idprof++;
-      popis2.push(podatak);
-      res.json(popis2);
-    
-  });
-
-app.put("/popis/:id", (req, res) => {
-  const studid= req.params.id;
-  const novi = req.body;
-  console.log("Promjena studenta: ", studid);
-
-  let nasao = false;
-  const noviNizPodataka = [];
-
-  popis.forEach(stari => {
-    if (stari.id == studid) {
-      novi.id = studid;  // Dodajemo ID u novi objekt
-      noviNizPodataka.push(novi);
-      console.log("Nasao sam podatak za promjenu");
-      nasao = true;
-    } else {
-      noviNizPodataka.push(stari);
-    }
-  });
-  if (nasao) {
-    popis = noviNizPodataka;
-    res.status(200).json({ poruka: "Uspjesno azurirani podaci!!", popis: noviNizPodataka });
-  } else {
-    res.status(204).send();
-  }
-});
-
-app.put("/popis_prof/:id", (req, res) => {
-  const studid= req.params.id;
-  const novi = req.body;
-  console.log("Promjena studenta: ", studid);
-
-  let nasao = false;
-  const noviNizPodataka = [];
-
-  popis2.forEach(stari => {
-    if (stari.id == studid) {
-      novi.id = studid;  // Dodajemo ID u novi objekt
-      noviNizPodataka.push(novi);
-      console.log("Nasao sam podatak za promjenu");
-      nasao = true;
-    } else {
-      noviNizPodataka.push(stari);
-    }
-  });
-  if (nasao) {
-    popis2 = noviNizPodataka;
-    res.status(200).json({ poruka: "Uspjesno azurirani podaci!!", popis2: noviNizPodataka });
-  } else {
-    res.status(204).send();
-  }
-});
-
-
-app.put("/stud_dip/:id", (req, res) => {
-  const studid= req.params.id;
-  const novi = req.body;
-  console.log("Promjena studenta: ", studid);
-
-  let nasao = false;
-  const noviNizPodataka = [];
-
- dip.forEach(stari => {
-    if (stari.id == studid) {
-      novi.id = studid;  // Dodajemo ID u novi objekt
-      noviNizPodataka.push(novi);
-      console.log("Nasao sam podatak za promjenu");
-      nasao = true;
-    } else {
-      noviNizPodataka.push(stari);
-    }
-  });
-  if (nasao) {
-    dip = noviNizPodataka;
-    res.status(200).json({ poruka: "Uspjesno azurirani podaci!!", dip: noviNizPodataka });
-  } else {
-    res.status(204).send();
-  }
-});
-  
-  
-
-app.post('/login', (req, res) => {
-  let  {email, lozinka } = req.body;
-  // Pronađi korisnika s odgovarajućim korisničkim imenom i lozinkom
-  const user = administratiri.find(user => user.email === email && user.lozinka === lozinka);
-  console.log(`Pronađeni korisnik: ${JSON.stringify(user)}`); //provjeravam jeli dobra pohrana
-  if(user) {
-      res.json({ success: true, email: email }); 
-  } else {
-      res.json({ success: false,email: email,lozinka: lozinka });
-  }
-});
-app.post('/login/prof', (req, res) => {
-  let  {email, lozinka } = req.body;
-  // Pronađi korisnika s odgovarajućim korisničkim imenom i lozinkom
-  const user = popis2.find(user => user.email === email && user.lozinka === lozinka);
-  console.log(`Pronađeni korisnik: ${JSON.stringify(user)}`); //provjeravam jeli dobra pohrana
-  if(user) {
-      res.json({ success: true, user }); 
-  } else {
-      res.json({ success: false,email: email,lozinka: lozinka });
-  }
-});
-app.delete('/popis/:id', (req, res) => {
-  const studentid = Number(req.params.id);
-  const podaciNakonBrisanja = popis.filter((student) => student.id != studentid);
-
-  if (!podaciNakonBrisanja) {
-    res.status(500).send('Podatak za brisanje nije pronađen');
-  } else {
-    popis = podaciNakonBrisanja;
-    res.send(popis);
-  }
-});
-app.delete('/popis_prof/:id', (req, res) => {
-  const profid = Number(req.params.id);
-  const podaciNakonBrisanja = popis2.filter((prof) => prof.id != profid);
-
-  if (!podaciNakonBrisanja) {
-    res.status(500).send('Podatak za brisanje nije pronađen');
-  } else {
-    popis2 = podaciNakonBrisanja;
-    res.send(popis2);
-  }
-});

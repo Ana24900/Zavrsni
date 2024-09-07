@@ -8,7 +8,7 @@ let podatak = parseInt(ucitavanje('podatak'));
 console.log( podatak);
 console.log(listaprof);
 let logirani={};
-
+console.log(lista);
 function prikazstud(items) {
     const list = document.getElementById("lista");
     let novi = `
@@ -45,26 +45,36 @@ function prikazstud(items) {
 document.addEventListener('DOMContentLoaded',(e)=> {
     e.preventDefault();
     document.getElementById("lista").innerHTML="";
-    fetch("http://localhost:4000/popis",{
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "*/*"
-        },
-        
-    })
-    .then(res=>{
-        return res.json();
-    })
-    .then(data=>{
-        for(let i of data){
-            
+    async function dohvatiPodatke() {
+        try {
+          
+          const response = await fetch("http://localhost:4000/baza", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "*/*"
+            }
+          });
+      
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+          }
+      
+          const data = await response.json();
+      
+          
+          for (let i of data) {
             lista.push(i);
-            prikazstud(lista);
-            
+          }
+          prikazstud(lista);
+      
+        } catch (error) {
+          
+          console.error('Greška pri dohvaćanju podataka:', error);
         }
-       
-    })
+      }
+      
+      dohvatiPodatke();
 })
 document.getElementById("pretrazivanje").addEventListener("keyup", (e) => {
     const searchData = e.target.value.toLowerCase();
@@ -78,90 +88,210 @@ document.getElementById("pretrazivanje").addEventListener("keyup", (e) => {
     prikazstud(filterData); 
 });
 var predmetiLista = document.getElementById('predmetiLista');
-
+var bod=0;
 function ocjene(a){
-    for(let i of listaprof){
-        if(i.id==podatak){
-            logirani=i;
-            console.log(logirani);
-        }
-    }
-    let stud={};
-    for(let i of lista){
-        if(i.id==a){
-            stud=i;
-        }
-    }
-   
-    for(let i=0;i<logirani.predmeti.length;i++){
-        let li = document.createElement('li');
-        li.classList=logirani.predmeti[i].ECTS;
-        li.innerHTML=logirani.predmeti[i].naziv;
-        let inputOcjena = document.createElement('input');
-        inputOcjena.type = 'number';
-        inputOcjena.min = '1';
-        inputOcjena.max = '5';
-        inputOcjena.placeholder = 'Unesi ocjenu';
-        inputOcjena.id="ocj";
-        let unesi = document.createElement('button');
-        unesi.class="unos";
-        unesi.onclick = () => {
-            klik(unesi);
-        };
-        unesi.innerHTML = 'Unesi ocjenu';
-        li.appendChild(inputOcjena);
-        li.appendChild(unesi);
-        predmetiLista.appendChild(li);
+    async function loadAndDisplayData(podatak, a) {
+        var listapred = [];
         
-        
-    }
-    console.log(stud);
-    let modal = document.getElementById('modal');
-    modal.style.display = 'block';
-    function klik(e){
-
-        let rod = e.parentElement;
-        let originalText = rod.textContent;
-        let naziv = originalText.replace(e.textContent, '').trim();
+        try {
+          
+            const response = await fetch("http://localhost:4000/predmeti", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                }
+            });
     
-        let pred = {
-            naziv: naziv,
-            ocjena: parseInt(rod.querySelector('input').value),
-            ECTS: parseInt(rod.className) 
-        };
-
-        stud.predmeti.push(pred);
-        console.log(pred);
-        
-        fetch(`http://localhost:4000/popis/${a}`,{
-            method: "PUT",
-            headers: {"Content-Type": "application/json",
-                "Accept": "*/*"
-            },
-            body: JSON.stringify(stud)
-        })
-        .then(res=>{
-            if(res.status==200){
-               
-                return res.json();
-            }else{
-                
-                return res.json();
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        })
-        .then(data=>{
-            console.log(data);
-        })
-        .catch(err=>{
-            console.log(err);
-        })
-        let modal = document.getElementById('modal');
-        modal.style.display = 'none'; 
-        predmetiLista.textContent="";
+    
+            const data = await response.json();
+    
+            listapred = data.filter(i => i.profesor_id == podatak);
+    
+            console.log(listapred);
+    
+            let logirani = null;
+            for (let i of listaprof) {
+                if (i.id == podatak) {
+                    logirani = i;
+                    console.log(logirani);
+                    break;
+                }
+            }
+    
+            var stud = {};
+            for (let i of lista) {
+                if (i.id == a) {
+                    stud = i;
+                    break;
+                }
+            }
+            bod=stud.ECTS_bodovi;
+            console.log(bod);
+            var prbod=0;
+            const predmetiLista = document.getElementById('predmetiLista');
+            for (let i = 0; i < listapred.length; i++) {
+                let li = document.createElement('li');
+                li.className = listapred[i].ECTS;
+                prbod=listapred[i].ECTS;
+                console.log(prbod);
+                li.innerHTML = listapred[i].naziv;
+    
+                let inputOcjena = document.createElement('input');
+                inputOcjena.type = 'number';
+                inputOcjena.min = '1';
+                inputOcjena.max = '5';
+                inputOcjena.placeholder = 'Unesi ocjenu';
+                inputOcjena.id = "ocj";
+    
+                let unesi = document.createElement('button');
+                unesi.className = "unos";
+                unesi.onclick = () => klik(unesi);
+                unesi.innerHTML = 'Unesi ocjenu';
+    
+                li.appendChild(inputOcjena);
+                li.appendChild(unesi);
+                predmetiLista.appendChild(li);
+            }
+    
+            console.log(stud);
+            let modal = document.getElementById('modal');
+            modal.style.display = 'block';
+    
+            function klik(e) {
+                let rod = e.parentElement;
+                let originalText = rod.textContent;
+                let naziv = originalText.replace(e.textContent, '').trim();
+                let oc=parseInt(rod.querySelector('input').value);
+                
+                for(let i of listapred){
+                    
+                    if(i.naziv==naziv){
+                        async function postOcjena(ocjena) {
+                            try {
+                                const response = await fetch("http://localhost:4000/ocjene/novi", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "*/*"
+                                    },
+                                    body: JSON.stringify(ocjena)
+                                });
+                        
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                        
+                                const data = await response.json();
+                                console.log(data);
+                                if (data.success) {
+                                    bod+=prbod;
+                                    console.log(bod);
+                                    alert("Uspješno unesen student sa ocjenom " + ocjena.ocjena);
+                                } else {
+                        
+                                    alert("Ocjena za studenta je uspešno ažurirana.");
+                                }
+                                
+                                console.log(data);
+                                console.log("Operacija uspešna");var pros=0;
+                                var zao=0;
+                                var azur={};
+                                fetch(`http://localhost:4000/ocjena/${a}`,{
+                                    method: "GET",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "*/*"
+                                    },
+                                    
+                                })
+                                .then(res=>{
+                                    return res.json();
+                                })
+                                .then(data=>{
+                                    for(i of data){
+                                        pros+=i.ocjena;
+                                        console.log(i.ocjena);
+                                    }
+                                    console.log(data.length);
+                                    console.log(pros);
+                                    pros=pros/(data.length);
+                                    zao=pros.toFixed(2);
+                                    console.log(zao);
+                                    for(let i of lista){
+                                        console.log(a);
+                                        if(a==i.id){
+                                            azur=i;
+                                            azur.prosjek=parseFloat(zao);
+                                            console.log(bod);
+                                            azur.ECTS_bodovi=bod;
+                                            console.log(azur);
+                                        }
+                                    }
+                                    fetch(`http://localhost:4000/studenti/${a}`,{
+                                        method: "PUT",
+                                        headers:{
+                                            "Content-Type": "application/json",
+                                            "Accept": "*/*"
+                                        },
+                                        body: JSON.stringify(azur)
+                                
+                                    })
+                                    .then(res=>{
+                                        if(res.status==200){
+                                            return true;
+                                        }
+                                        else{
+                                            return false;
+                                        }
+                                        
+                                    })
+                                    .then(data=>{
+                                        console.log("dodan je novi podatak");
+                                    })
+                                    .catch(err=>{
+                                        console.log("Podatak sa tim idom je updatean");
+                                    }
+                                    )  
+                                    
+                                })
+                                
+                            } catch (error) {
+                                console.error('Greška pri unosu:', error);
+                                alert('Došlo je do greške pri unosu ocjene.');
+                            }
+                        }
+                        
+                        const ocjena = {
+                            student_id: a,
+                            predmet_id: i.id,
+                            ocjena: oc
+                        };
+                        console.log(ocjena);
+                        postOcjena(ocjena);
+                        
+                    }
+                }
+                
+    
+                let modal = document.getElementById('modal');
+                modal.style.display = 'none';
+                predmetiLista.textContent = "";
+            }
+    
+        } catch (error) {
+            console.error('Greška pri dohvaćanju podataka:', error);
+        }
     }
     
-     
-        
+    
+    loadAndDisplayData(podatak, a);
+    
+    
+    
             
 }
     
@@ -175,7 +305,7 @@ document.getElementById("close").addEventListener("click",(e)=>{
 
 document.addEventListener('DOMContentLoaded',(e)=> {
     e.preventDefault();
-    fetch("http://localhost:4000/popis_prof",{
+    fetch("http://localhost:4000/profesori",{
         method: "GET",
         headers: {
             "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-var osnovniurl='http://localhost:4000/login/prof';
+var osnovniurl='http://localhost:4000/loginprofesori';
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -6,11 +6,12 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
     
         var email = document.getElementById("user").value;
-        var lozinka = document.getElementById("lozinka").value;
-        
+        var password = document.getElementById("lozinka").value;
+        console.log(email);
+        console.log(password);
         var podatak = {
             email: email,
-            lozinka: lozinka
+            password: password
         };
         
         try {
@@ -25,7 +26,9 @@ document.addEventListener("DOMContentLoaded", function() {
             if (data.success) {
                 window.location.href = `unos_ocj.html?podatak=${encodeURIComponent(data.user.id)}`;
             } else {
-                document.getElementById("poruka").textContent = "Korisnički račun ne postoji " + data.email+ " " + data.lozinka;
+                
+                    document.getElementById("poruka").textContent = "Korisnički račun ne postoji ";
+                
             }
         } catch (er) {
             console.log("greska");

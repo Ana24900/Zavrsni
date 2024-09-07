@@ -7,9 +7,10 @@ let podatak = parseInt(ucitavanje('podatak'));
 console.log( podatak);
 console.log(listaprof);
 let logirani={};
-document.addEventListener('DOMContentLoaded',(e)=> {
+document.addEventListener("DOMContentLoaded",(e)=> {
     e.preventDefault();
-    fetch("http://localhost:4000/popis_prof",{
+    
+    fetch("http://localhost:4000/profesori",{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded',(e)=> {
     .then(data=>{
         for(let i of data){
             listaprof.push(i);
+            
             if(i.id==podatak){
                 logirani=i;
                 console.log(logirani);
@@ -77,7 +79,7 @@ document.getElementById("promjeni-lozinku").addEventListener("click",(e)=>{
     let nova=document.getElementById("nova-lozinka").value;
     if(provjeraaloz(stara,nova)){
         logirani.lozinka=nova;
-        fetch(`http://localhost:4000/popis_prof/${logirani.id}`,{
+        fetch(`http://localhost:4000/profesori/${logirani.id}`,{
             method: "PUT",
             headers:{
                 "Content-Type": "application/json",
@@ -113,7 +115,7 @@ document.getElementById("promjeni-ured").addEventListener("click",(e)=>{
     let ur=document.getElementById("novi-ured").value;
     if(ur!=logirani.ured){
         logirani.ured=ur;
-        fetch(`http://localhost:4000/popis_prof/${logirani.id}`,{
+        fetch(`http://localhost:4000/profesori/${logirani.id}`,{
             method: "PUT",
             headers:{
                 "Content-Type": "application/json",
@@ -147,9 +149,9 @@ document.getElementById("promjeni-ured").addEventListener("click",(e)=>{
 document.getElementById("promjeni-kontakt").addEventListener("click",(e)=>{
     e.preventDefault();
     let kon=document.getElementById("novi-kontakt").value;
-    if((kon%2)==0){
+   
         logirani.kontakt=kon;
-        fetch(`http://localhost:4000/popis_prof/${logirani.id}`,{
+        fetch(`http://localhost:4000/profesori/${logirani.id}`,{
             method: "PUT",
             headers:{
                 "Content-Type": "application/json",
@@ -175,11 +177,9 @@ document.getElementById("promjeni-kontakt").addEventListener("click",(e)=>{
         )
         alert("uspjesno ste promjenili kontakt "+kon);
     }
-    else{
-        alert("Krivi kontakt");
-    }
     
-})
+    
+)
 document.getElementById("odjava").addEventListener("click",(e)=>{
     e.preventDefault();
     alert("zelite se odjaviti");
