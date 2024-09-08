@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log("Pronaden administrator");
                 window.location.href = 'stranica.html';
             } else {
-                document.getElementById("poruka").textContent = "Korisnički račun ne postoji " + data.email+ " " + data.password;
+                document.getElementById("poruka").textContent = "Korisnički račun ne postoji ";
             }
         } catch (er) {
             console.log("greska");

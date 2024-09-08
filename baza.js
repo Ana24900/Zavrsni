@@ -180,13 +180,12 @@ export async function deleteStudent(id) {
 export async function updateStudent(a) {
   const [result] = await pool.query(`
     UPDATE studenti
-    SET ime = ?, prezime = ?, godina_studiranja = ?, prosjek = ?, studijski_smijer = ?, ECTS_bodovi = ?, semestar = ?, primljena = ?, uklonjen = ?
+    SET ime = ?, prezime = ?, godina_studiranja = ?, prosjek = ?, studijski_smijer = ?, ECTS_bodovi = ?, semestar = ?, primljena = ?, uklonjen = ?, izbor1 = ?, izbor2 = ?, izbor3 = ?, bodovi1 = ?, bodovi2 = ?, bodovi3 = ?
     WHERE id = ?`, 
-    [a.ime, a.prezime, a.godina_studiranja, a.prosjek, a.studijski_smijer, a.ECTS_bodovi, a.semestar, a.primljena, a.uklonjen, a.id]);
+    [a.ime, a.prezime, a.godina_studiranja, a.prosjek, a.studijski_smijer, a.ECTS_bodovi, a.semestar, a.primljena, a.uklonjen, a.izbor1, a.izbor2, a.izbor3, a.bodovi1, a.bodovi2, a.bodovi3, a.id]);
 
   return result;
 }
-
 //diplomski post
 export async function createDiplomskiStudent(student) {
   const [result] = await pool.query(`

@@ -37,6 +37,52 @@ function provjeradip(a){
     return true;
 }
 var idstud=0;
+ function bodovanje(i,e,g,list){
+    let zbroj=0;
+    let b=0;
+    if(i=="Nastavnički informatika i tehnika"){
+        for(let j=0;j<list.length;j++){
+            if(list[j].predmet_id==1){
+                zbroj+=list[j].ocjena;
+            }
+            if(list[j].predmet_id==4){
+                zbroj+=list[j].ocjena;
+            }
+        }
+        b=(e*(zbroj)/2)/g;
+        return b;
+    }
+    else if(i=="Nastavnički informatika"){
+        for(let j=0;j<list.length;j++){
+            if(list[j].predmet_id==1){
+                zbroj+=list[j].ocjena;
+            }
+            if(list[j].predmet_id==4){
+                zbroj+=list[j].ocjena;
+            }
+            if(list[j].predmet_id==5){
+                zbroj+=list[j].ocjena;
+            }
+        }
+        b=(e*(zbroj)/2)/g;
+        return b;
+    }
+    else{
+        for(let j=0;j<list.length;j++){
+            if(list[j].predmet_id==1){
+                zbroj+=list[j].ocjena;
+            }
+            if(list[j].predmet_id==2){
+                zbroj+=list[j].ocjena;
+            }
+            if(list[j].predmet_id==4){
+                zbroj+=list[j].ocjena;
+            }
+        }
+        b=(e*(zbroj)/2)/g;
+        return b;
+    }
+}
 document.getElementById("unos").addEventListener("click", (e) => {
     e.preventDefault();
     var ime = document.getElementById("ime").value;
@@ -47,7 +93,6 @@ document.getElementById("unos").addEventListener("click", (e) => {
     upisi1= document.getElementById("prvi_izbor").value;
     upisi2 = document.getElementById("drugi_izbor").value;
     upisi3= document.getElementById("treci_izbor").value;
-    let izb=[];
     var ecc=0;
     let pr=0;
 
@@ -55,6 +100,9 @@ document.getElementById("unos").addEventListener("click", (e) => {
         ecc+=i.ECTS;
         pr+=i.ocjena;
     }
+    let bodovi1=bodovanje(upisi1,ecc,godina_studiranja,listocj);
+    let bodovi2=bodovanje(upisi1,ecc,godina_studiranja,listocj);
+    let bodovi3=bodovanje(upisi1,ecc,godina_studiranja,listocj);
     pr=pr/(listocj.length);
     let zao = pr.toFixed(2);
     let stud = {
@@ -70,9 +118,9 @@ document.getElementById("unos").addEventListener("click", (e) => {
         izbor1: upisi1,
         izbor2: upisi2,
         izbor3: upisi3,
-        bodovi1: 0,
-        bodovi2: 0,
-        bodovi3: 0,
+        bodovi1: bodovi1,
+        bodovi2: bodovi2,
+        bodovi3: bodovi3,
     };
 
     console.log(stud);

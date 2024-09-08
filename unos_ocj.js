@@ -41,7 +41,58 @@ function prikazstud(items) {
     list.innerHTML = novi;
 }
 
+function bodovanje(i,e,g,list){
+    let zbroj=0;
+    let b=0;
+    if(i=="Nastavnički informatika i tehnika"){
+        for(let j=0;j<list.length;j++){
+            if(list[j].predmet_id==1){
+                zbroj+=list[j].ocjena;
+            }
+            if(list[j].predmet_id==4){
+                zbroj+=list[j].ocjena;
+            }
+        }
+        b=(e*((zbroj)/2))/g;
+        console.log(b);
+        return b;
+    }
+    else if(i=="Nastavnički informatika"){
+        for(let j=0;j<list.length;j++){
+            if(list[j].predmet_id==1){
+                zbroj+=list[j].ocjena;
+            }
+            if(list[j].predmet_id==4){
+                zbroj+=list[j].ocjena;
+            }
+            if(list[j].predmet_id==5){
+                zbroj+=list[j].ocjena;
+            }
+        }
+        b=(e*((zbroj)/2))/g;
 
+        console.log(b);
+
+        return b;
+    }
+    else{
+        for(let j=0;j<list.length;j++){
+            if(list[j].predmet_id==1){
+                zbroj+=list[j].ocjena;
+            }
+            if(list[j].predmet_id==2){
+                zbroj+=list[j].ocjena;
+            }
+            if(list[j].predmet_id==4){
+                zbroj+=list[j].ocjena;
+            }
+        }
+        b=(e*((zbroj)/2))/g;
+
+        console.log(b);
+        return b;
+    }
+}
 document.addEventListener('DOMContentLoaded',(e)=> {
     e.preventDefault();
     document.getElementById("lista").innerHTML="";
@@ -228,6 +279,10 @@ function ocjene(a){
                                             azur.prosjek=parseFloat(zao);
                                             console.log(bod);
                                             azur.ECTS_bodovi=bod;
+                                            azur.bodovi1=bodovanje(azur.izbor1,bod,azur.godina_studiranja,data);
+                                            azur.bodovi2=bodovanje(azur.izbor2,bod,azur.godina_studiranja,data);
+                                            azur.bodovi3=bodovanje(azur.izbor3,bod,azur.godina_studiranja,data);
+                    
                                             console.log(azur);
                                         }
                                     }

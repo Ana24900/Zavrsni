@@ -1,4 +1,4 @@
-/* Opći stilovi */
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f5f5f5;
@@ -155,7 +155,7 @@ h1 {
     font-size: 14px;
 }
 
-/* Dugmad */
+
 button {
     background-color: #4CAF50;
     color: white;

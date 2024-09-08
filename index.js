@@ -72,9 +72,6 @@ import body_parser from "body-parser";
 // obradjuje zahtjeve tipa (application/json content-type)
 app.use(body_parser.json());
 
-// Ucitavamo podatke iz datoteke
-// let popis = require("./popis");
-// let dip=require("./stud_dip");
 // Definiramo osnovnu rutu za GET zahtjev
 app.get("/", (req, res) =>
   res.send("Dobrodošli na server!")
@@ -296,7 +293,7 @@ app.post('/loginprofesori', async (req, res) => {
 
   try {
     const user = await getUserByUsername(email);
-
+    
     if (user.email==email && password==user.lozinka) {
       res.json({ success: true, user });  // Vrati korisnika (user) da bi ga frontend mogao koristiti
     } else {

@@ -74,7 +74,7 @@ function sortprikaz(listasort) {
     `;
 
     listasort.forEach((student, index) => {
-        bodovanje(student);  // Obrada podataka studenta
+        
         br++;
         novi += `
             <tr>
@@ -83,7 +83,7 @@ function sortprikaz(listasort) {
                 <td>${student.prezime}</td>
                 <td>${student.studijski_smijer}</td>
                 <td>${student.prosjek}</td>
-                <td>${ispisbodova(listasort, index)}</td>
+                <td>${student.bodovi1,student.bodovi2,student.bodovi3}</td>
                 <td class="kaolink" onclick="uklanjanje(${student.id})">Ukloni</td>
             </tr>
         `;
@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded',(e)=> {
     fetch("http://localhost:4000/baza",{
         method: "GET",
         headers: {
-            "Content-Type": "application/json",
-            "Accept": "*/*"
+           "Content-Type": "application/json",
+              "Accept": "*/*"
         },
         
     })
@@ -111,9 +111,7 @@ document.addEventListener('DOMContentLoaded',(e)=> {
     })
     .then(data=>{
         for(let i of data){
-            bodovanje(i,izbor1,1);
-            bodovanje(i,izbor2,2);
-            bodovanje(i,izbor3,3);
+           
             fetch(`http://localhost:4000/ocjena/${i.id}`,{
                 method: "GET",
                 headers: {
@@ -169,84 +167,6 @@ document.addEventListener('DOMContentLoaded',(e)=> {
     
 })
 
-       
-
-
-function ispisbodova(a,j){
-  if(a==inf){
-          if(inf[j].izbor1=="Nastavnički informatika"){
-              return inf[j].bodovi1;
-          }
-          else if(inf[j].izbor2=="Nastavnički informatika"){
-                return inf[j].bodovi2;
-        }
-        else if(inf[j].izbor3=="Nastavnički informatika"){
-            return inf[j].bodovi3;
-        }
-
-  }
-  else if(a==infiteh){
-          if(infiteh[j].izbor1=="Nastavnički informatika i tehnika"){
-              return infiteh[j].bodovi1;
-          }
-          else if(infiteh[j].izbor2=="Nastavnički informatika i tehnika"){
-            return infiteh[j].bodovi2;
-        }
-        else if(infiteh[j].izbor3=="Nastavnički informatika i tehnika"){
-            return infiteh[j].bodovi3;
-        }
-      
-  }
-  else{
-          if(baze[j].izbor1=="Informatika baze podataka"){
-              return baze[j].bodovi1;
-          }
-          else if(baze[j].izbor2=="Informatika baze podataka"){
-            return baze[j].bodovi2;
-        }
-        else if(baze[j].izbor3=="Informatika baze podataka"){
-            return baze[j].bodovi3;
-        }
-  }
-}
-
-function bodovanje(a,n,br){
-    if(br==1){
-        if(n=="Nastavnički informatika"){
-            a.bodovi1=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
-        }
-        else if(n=="Nastavnički informatika i tehnika"){
-            a.bodovi1=(180*((a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2))/a.godina_studiranja;
-        }
-        else{
-            a.bodovi1=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
-        }
-    }
-    else if(br==2){
-        if(n=="Nastavnički informatika"){
-            a.bodovi2=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
-        }
-        else if(n=="Nastavnički informatika i tehnika"){
-            a.bodovi2=(180*((a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2))/a.godina_studiranja;
-        }
-        else{
-            a.bodovi2=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
-        }
-        
-    }
-    else
-    {if(n=="Nastavnički informatika"){
-        a.bodovi3=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
-    }
-    else if(n=="Nastavnički informatika i tehnika"){
-        a.bodovi3=(180*((a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2))/a.godina_studiranja;
-    }
-    else{
-        a.bodovi3=(180*(a.predmeti[0].ocjena+a.predmeti[0].ocjena)/2)/a.godina_studiranja;
-    }
-
-    }
-  }
 
 function upad(a,b){
     let id=0;
@@ -403,17 +323,17 @@ document.getElementById("provjera").addEventListener("click",(e)=>{
     listbaze.innerHTML="";
     listinf.innerHTML="";
     for(let i=0;i<lista.length;i++){
-        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
+        if(lista[i].primljena==false && lista[i].semestar==6 && lista[i].uklonjen==false){
         upad(i,0);
         }
     }
     for(let i=0;i<lista.length;i++){
-        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
+        if(lista[i].primljena==false && lista[i].semestar==6 && lista[i].uklonjen==false){
         upad(i,1);
         }
     }
     for(let i=0;i<lista.length;i++){
-        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
+        if(lista[i].primljena==false && lista[i].semestar==6 && lista[i].uklonjen==false){
             upad(i,2);
         }
     }
@@ -557,17 +477,17 @@ function uklanjanje(a){
     listbaze.innerHTML="";
     listinf.innerHTML="";
     for(let i=0;i<lista.length;i++){
-        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
+        if(lista[i].primljena==false && lista[i].semestar==6 && lista[i].uklonjen==false){
         upad(i,0);
         }
     }
     for(let i=0;i<lista.length;i++){
-        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
+        if(lista[i].primljena==false && lista[i].semestar==6 && lista[i].uklonjen==false){
         upad(i,1);
         }
     }
     for(let i=0;i<lista.length;i++){
-        if(lista[i].primljena==false && lista[i].semestar==4 && lista[i].uklonjen==false){
+        if(lista[i].primljena==false && lista[i].semestar==6 && lista[i].uklonjen==false){
             upad(i,2);
         }
     }
@@ -607,7 +527,7 @@ document.getElementById("up").addEventListener("click",(e)=>{
         inf[i].studijski_smijer="Nastavnički informatika";
         inf[i].ECTS_bodovi=0;
         inf[i].godina_studiranja++;
-        inf[i].semestar=5;
+        inf[i].semestar=7;
         inf[i].primljena=false;
         inf[i].predmeti=[];
 
@@ -650,6 +570,7 @@ document.getElementById("up").addEventListener("click",(e)=>{
     for(let i=0;i<infiteh.length;i++){{
         infiteh[i].studijski_smijer="Nastavnički informatika i tehnika";
         infiteh[i].ECTS_bodovi=0;
+        infiteh[i].semestar=7;
         infiteh[i].godina_studiranja++;
         infiteh[i].primljena=false;
         infiteh[i].predmeti=[];
@@ -694,7 +615,7 @@ document.getElementById("up").addEventListener("click",(e)=>{
         baze[i].studijski_smijer="Baze podataka";
         baze[i].ECTS_bodovi=0;
         baze[i].godina_studiranja++;
-        baze[i].semestar=5;
+        baze[i].semestar=7;
         baze[i].primljena=false;
         baze[i].predmeti=[];
 
@@ -766,7 +687,7 @@ document.getElementById("godine").addEventListener("click", (e) => {
     modal.style.display = 'block';
     visagodina(lista);
     for(let student of lista){
-        if(student.primljena==true && student.semestar!=4){
+        if(student.primljena==true && student.semestar!=6){
             
             visagod.push(student);
      }
@@ -776,7 +697,7 @@ document.getElementById("godine").addEventListener("click", (e) => {
         e.preventDefault();
         let modal = document.getElementById('modal');
         modal.style.display = 'none'; 
-        
+        visagod=[];
         
     })
 });
@@ -814,6 +735,26 @@ function visagodina(lista){
                 console.log(i.ECTS);
                 i.primljena=true;
                
+            }
+        }
+        if(i.semestar==4){
+            if(i.ECTS_bodovi<4){
+                i.primljena=false;
+            }
+            else{
+                i.primljena=true;
+                i.godina_studiranja++;
+                
+            }
+        }
+        if(i.semestar==5){
+            if(i.ECTS_bodovi<4){
+                i.primljena=false;
+            }
+            else{
+                i.primljena=true;
+                i.godina_studiranja++;
+                
             }
         }
     }
