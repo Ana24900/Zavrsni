@@ -23,11 +23,10 @@ document.getElementById("reg").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location.href = 'registracija.html';
 })
-document.getElementById("popis").addEventListener("click",(e)=>{
-    e.preventDefault();
-    window.location.href = 'stranica.html';
-})
+
 function prikaziDetalje(id,element) {
+    let pr=loadAndDisplayData(id);
+    console.log(pr);
     const roditelj = element.closest('tr');
     let detalji = roditelj.nextElementSibling;
     if (detalji && detalji.classList.contains('detalji-row')) {
@@ -36,7 +35,7 @@ function prikaziDetalje(id,element) {
         detalji = document.createElement('tr');
         detalji.classList.add('detalji-row');
         const novi = document.createElement('td');
-        novi.colSpan = 6;  // Postavlja koliko kolona ovaj <td> pokriva
+        novi.colSpan = 6; 
         for(let i of lista){
             if(id==i.id){
                 let novinnerHTML = `
@@ -48,9 +47,10 @@ function prikaziDetalje(id,element) {
             <p><strong>Ured</strong> ${i.ured}</p>
             <p><strong>Odjel</strong> ${i.odjel}</p>
             <h3>Predmeti predavanja</h3> 
+        
             `;
-            for (let j = 0; j < i.predmeti.length; j++) {
-                novinnerHTML += `<p> <strong>${i.predmeti[j].naziv}</strong> ECTS <strong>${i.predmeti[j].ECTS}</strong></p>`;
+            for (let j = 0; j < pr.length; j++) {
+                novinnerHTML += `<p> <strong>${pr[j].naziv}</strong> ECTS <strong>${pr[j].ECTS}</strong></p>`;
             }
             novinnerHTML+=`</div>`
             novi.innerHTML=novinnerHTML;
@@ -78,7 +78,7 @@ document.getElementById("pretrazivanje").addEventListener("keyup", (e) => {
             item.polozaj.toLowerCase().includes(searchData)
         );
     });
-    prikaziTabelu(filterData); // Prikazuje filtrirane rezultate
+    prikaziTabelu(filterData); 
 });
 
 
@@ -144,12 +144,75 @@ function brisanjeprof(id){
         alert("odustali ste od brisanja");
     }
 }
-document.getElementById("dip").addEventListener("click",(e)=>{
+document.getElementById("tipkapred").addEventListener("click",(e)=>{
     e.preventDefault();
-    window.location="dipl.html";
+    window.location="stranica.html";
 })
 document.getElementById("odjava").addEventListener("click",(e)=>{
     e.preventDefault();
     alert("zelite se odjaviti");
     window.location="pocetna_prof.html";
 })
+    
+        
+function loadAndDisplayData(podatak) {
+    var listapred = [];
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost:4000/predmeti", false); 
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Accept", "*/*");
+
+    try {
+        xhr.send();
+        
+        if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            listapred = data.filter(i => i.profesor_id == podatak);
+            console.log(listapred);
+            return listapred;
+        } else {
+            throw new Error('Network response was not ok');
+        }
+    } catch (error) {
+        console.error('Greška pri dohvaćanju podataka:', error);
+    }
+}
+
+function prikaziProfesorepoOdjelu(odjel) {
+    const filteredProfesori = lista.filter(profesor => profesor.odjel.toLowerCase() === odjel);
+    console.log(filteredProfesori);
+    prikaziTabelu(filteredProfesori);
+}
+
+document.querySelectorAll('#odjel-options li').forEach(option => {
+    option.addEventListener('click', function() {
+        const Odjel = this.getAttribute('value');
+        console.log(Odjel);
+        prikaziProfesorepoOdjelu(Odjel.toLowerCase());
+    });
+});
+
+function prikaziProfesorepoPolozaju(polozaj) {
+    const filteredProfesori = lista.filter(profesor => profesor.polozaj.toLowerCase() === polozaj);
+    console.log(filteredProfesori);
+    prikaziTabelu(filteredProfesori);
+}
+
+document.querySelectorAll('#polozaj-options li').forEach(option => {
+    option.addEventListener('click', function() {
+        const Polozaj = this.getAttribute('value');
+        console.log(Polozaj);
+        prikaziProfesorepoPolozaju(Polozaj.toLowerCase());
+    });
+});
+document.getElementById("profispis").addEventListener("click",(e)=>{
+    e.preventDefault();
+    prikaziTabelu(lista);
+})
+document.querySelectorAll('#semestar-options li').forEach(option => {
+    option.addEventListener('click', function() {
+        let semestar = this.getAttribute('value'); 
+        window.location.href = `stranica.html?semestar=${encodeURIComponent(semestar)}`;
+    });
+});

@@ -5,6 +5,111 @@ body {
     padding: 0;
     color: #333;
 }
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #4CAF50;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content ul {
+    flex-direction: column;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-content ul li {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color: white;
+    cursor: pointer;
+    position: relative; /* Važno za sub-dropdown pozicioniranje */
+}
+
+/* Stil za sub-dropdown */
+.dropdown-sub-content {
+    display: none;
+    position: absolute;
+    left: 100%; /* Pored glavnog dropdowna */
+    top: 0;
+    background-color: #45a049;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.dropdown-sub-content ul {
+    flex-direction: column;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-sub-content ul li {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color: white;
+    cursor: pointer;
+    position: relative; /* Važno za sub-sub-dropdown pozicioniranje */
+}
+
+/* Stil za sub-sub-dropdown */
+.dropdown-sub-sub-content {
+    display: none;
+    position: absolute;
+    left: 100%; /* Pored sub-dropdowna */
+    top: 0;
+    background-color: #357a38;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+}
+
+.dropdown-sub-sub-content ul {
+    flex-direction: column;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-sub-sub-content ul li {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color: white;
+    cursor: pointer;
+}
+
+.dropdown-content ul li:hover .dropdown-sub-content {
+    display: block;
+}
+
+.dropdown-sub-content ul li:hover .dropdown-sub-sub-content {
+    display: block;
+}
+
+.dropdown-content ul li:hover {
+    background-color: #45a049;
+}
+
+.dropdown-sub-content ul li:hover {
+    background-color: #357a38;
+}
+
+.dropdown-sub-sub-content ul li:hover {
+    background-color: #2a5d34;
+}
+
+#stud:hover .dropdown-content,
+#popprof:hover .dropdown-content {
+    display: block;
+}
 #navigacijska {
     background-color: #4CAF50;
     padding: 1rem;
@@ -37,7 +142,7 @@ body {
     border-radius: 5px;
 }
 
-/* Glavni sadržaj */
+
 #glavna {
     display: flex;
     flex-direction: column;
@@ -54,7 +159,7 @@ body {
     max-width: 1200px;
 }
 
-/* Naslovi */
+
 h1 {
     font-family: 'Playfair Display', serif;
     font-size: 2.7rem;
@@ -63,7 +168,6 @@ h1 {
     font-weight: bold;
 }
 
-/* Dugmad */
 button {
     background-color: #4CAF50;
     color: white;

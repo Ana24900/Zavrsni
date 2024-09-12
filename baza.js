@@ -1,6 +1,6 @@
 import mysql, { createPool } from 'mysql2'
 const pool=mysql.createPool({
-    host: '127.0.0.1.',
+    host: '127.0.0.1',
     user:'root',
     password:'139271710',
     database:'zavrsni'

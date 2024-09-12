@@ -1,14 +1,11 @@
-
-
 var lista=[];
 var inf=[];
 var infiteh=[];
 var baze=[];
 
-
-
 function prikazstud(items) {
     const list = document.getElementById("lista");
+    list.innerHTML="";
     let novi = `
         <table>
             <thead>
@@ -34,9 +31,8 @@ function prikazstud(items) {
                 <td>${i.studijski_smijer}</td>
                 <td>${i.prosjek}</td>
                 <td class="kaolink" onclick="prikaziDetalje(${i.id}, this)">Detalji</td>
-                <td class="kaolink" onclick="brisanje(${i.id}, this)">Brisanje</td>
-            </tr>
-        `;
+                <td class="kaolink" onclick="brisanje(${i.id}, this)">Brisanje</td
+                </tr>`;
     });
 
     novi += "</tbody></table>";
@@ -44,7 +40,7 @@ function prikazstud(items) {
 }
 
 function sortprikaz(listasort) {
-    let list=null;
+   
     if(listasort==inf){
         list = document.getElementById("tablicainf");
     }
@@ -93,10 +89,7 @@ function sortprikaz(listasort) {
     list.innerHTML = novi;
     
 }
-
-
-document.addEventListener('DOMContentLoaded',(e)=> {
-    e.preventDefault();
+function preddip(){
     document.getElementById("lista").innerHTML="";
     fetch("http://localhost:4000/baza",{
         method: "GET",
@@ -164,6 +157,12 @@ document.addEventListener('DOMContentLoaded',(e)=> {
         console.log("greska");
     })      
     
+}
+
+document.addEventListener('DOMContentLoaded',(e)=> {
+    e.preventDefault();
+    
+    preddip();
     
 })
 
@@ -364,7 +363,7 @@ function prikaziDetalje(id,element) {
         const novi = document.createElement('td');
         novi.colSpan = 6;  // Postavlja koliko kolona ovaj <td> pokriva
         for(let i of lista){
-                if(id==i.id){
+        if(id==i.id){
                     novi.innerHTML = `
         <div class="detalji-container">
             <p><strong>Ime:</strong> ${i.ime}</p>
@@ -384,7 +383,7 @@ function prikaziDetalje(id,element) {
             `).join('')}
         </div>
     `;
-            }
+        }
         }
         detalji.appendChild(novi);
         
@@ -441,6 +440,7 @@ function brisanje(id){
         alert("odustali ste od brisanja");
     }
 }
+
 function uklanjanje(a){
     a.ECTS_bodovi=0;
     for(let i=0;i<inf.length;i++){
@@ -679,7 +679,51 @@ function prikazPopisaStudenata(lista) {
 
     popis += "</ul>";
     modalContent.innerHTML += popis;
+    
 }
+
+function prikaziStudentePoSemestru(semestar) {
+    console.log(lista);
+    //console.log(semestar)
+    console.log(lista);
+    let filteredStudents = lista.filter(student => parseInt(student.semestar, 10) == semestar);
+    console.log(filteredStudents);
+    prikazstud(filteredStudents);
+}
+document.querySelectorAll('#semestar-options li').forEach(option => {
+    option.addEventListener('click', function() {
+        const semestar = parseInt(this.getAttribute('value'), 10);
+        console.log(semestar);
+        prikaziStudentePoSemestru(semestar);
+    });
+});
+function prikaziStudentePoSmjeru(smjer) {
+    const filteredStudents = lista.filter(student => student.studijski_smijers === smjer);
+    console.log(filteredStudents);
+    prikazstud(filteredStudents);
+}
+
+document.querySelectorAll('#smjer-options li').forEach(option => {
+    option.addEventListener('click', function() {
+        const smjer = this.getAttribute('value');
+        console.log(smjer);
+        prikaziStudentePoSmjeru(smjer);
+    });
+});
+
+function prikaziStudentePoIzboru(izbor) {
+    const filteredStudents = lista.filter(student => student.izbor1.toLowerCase() === izbor);
+    console.log(filteredStudents);
+    prikazstud(filteredStudents);
+}
+
+document.querySelectorAll('#izbor-options li').forEach(option => {
+    option.addEventListener('click', function() {
+        const izbor = this.getAttribute('value');
+        console.log(izbor);
+        prikaziStudentePoIzboru(izbor.toLowerCase());
+    });
+});
 
 document.getElementById("godine").addEventListener("click", (e) => {
     e.preventDefault();
@@ -801,12 +845,17 @@ document.getElementById("visa").addEventListener("click",(e)=>{
     window.location="stranica.html";
     visagod=[];
 })
-document.getElementById("dip").addEventListener("click",(e)=>{
-    e.preventDefault();
-    window.location="dipl.html";
-})
+
 document.getElementById("odjava").addEventListener("click",(e)=>{
     e.preventDefault();
     alert("zelite se odjaviti");
     window.location="pocetna_prof.html";
+})
+// document.getElementById("dip").addEventListener("click",(e)=>{
+//     e.preventDefault();
+//     window.location.href='dipl.html'
+// })
+document.getElementById("popis").addEventListener("click",(e)=>{
+    e.preventDefault();
+    prikazstud(lista);
 })

@@ -9,15 +9,118 @@
 </head>
 
 <body>
-    <div id="navigacijska">
-        <ul>
-            <li class="item" id="popis">Popisi studenata</li>
-            <li class="item" id="popprof">Popis profesora</li>
-            <li class="item" id="dip">Diplomski</li>
-            <li class="item" id="reg">Registracija</li>
-            <li class="item" id="odjava">Odjava</li>
-        </ul>
-    </div>
+    <body>
+        <div id="navigacijska">
+            <ul>
+                <li class="item" id="stud">Studenti
+                    <div class="dropdown-content">
+                        <ul>
+                            <li id="preddip">
+                                <p id="tipkapred">Preddiplomski</p>
+                                <div class="dropdown-sub-content">
+                                    <ul>
+                                        <li id="semestar">Semestar
+                                            <div class="dropdown-sub-sub-content">
+                                                <ul id="semestar-options">
+                                                    <li value="1">I.Semestar </li>
+                                                    <li value="2">II. Semestar </li>
+                                                    <li value="3">III. Semestar</li>
+                                                    <li value="4">IV. Semestar</li>
+                                                    <li value="5">V. Semestar</li>
+                                                    <li value="6">VI. Semestar</li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li id="smjer">Smjer
+                                            <div class="dropdown-sub-sub-content">
+                                                <ul id="smjer-options">
+                                                    <li value="Informatika">Informatika</li>
+                                                    <li value="Informatika i tehnika">Informatika i tehnika</li>
+                                                    <li value="Informatika i matematika">Informatika i matematika</li>
+                                                    <li value="Matematika">Matematika</li>
+                                                    <li value="Tehnika">Tehnika</li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li id="izbor">Prvi izbor
+                                            <div class="dropdown-sub-sub-content">
+                                                <ul id="izbor-options">
+                                                    <li value="Nastavnički informatika">Informatika</li>
+                                                    <li value="Nastavnički informatika i tehnika">Informatika i tehnika</li>
+                                                    <li value="Informatika baze podataka">Baze podataka</li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li id="dip">
+                                <p id="tipkadip">Diplomski</p>
+                                <div class="dropdown-sub-content">
+                                    <ul>
+                                        <li id="semestar-dip">Semestar
+                                            <div class="dropdown-sub-sub-content">
+                                                <ul id="semestar-options-dip">
+                                                    <li value="7">Semestar 7</li>
+                                                    <li value="8">Semestar 8</li>
+                                                    <li value="9">Semestar 9</li>
+                                                    <li value="10">Semestar 10</li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li id="smjer-dip">Smjer
+                                            <div class="dropdown-sub-sub-content">
+                                                <ul id="smjer-options-dip">
+                                                    <li value="Informatika">Informatika</li>
+                                                    <li value="Informatika i tehnika">Informatika i tehnika</li>
+                                                    <li value="Baze podataka">Baze podataka</li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+    
+                <li class="item" id="popprof"><p id="profispis">Profesori</p>
+                    <div class="dropdown-content">
+                        <ul>
+                            <li id="polozaj">Položaj
+                                <div class="dropdown-sub-content">
+                                    <ul id="polozaj-options">
+                                        <li value="dekan">Dekan</li>
+                                        <li value="profesor">Profesor</li>
+                                        <li value="docent">Docent</li>
+                                        <li value="prodekan">Prodekan</li>
+                                        <li value="asistent">Asistent</li>
+                                        <li value="Izvanredni profesor">Izvanredni profesor</li>
+                                        <li value="suradnik">Suradnik</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li id="odjel">Odjel
+                                <div class="dropdown-sub-content">
+                                    <ul id="odjel-options">
+                                        <li value="matematika">Matematika</li>
+                                        <li value="psihologija">Psihologija</li>
+                                        <li value="informatika">Informatika</li>
+                                        <li value="tehnika">Tehnika</li>
+                                        <li value="fizika">Fizika</li>
+                                        <li value="biologija">Biologija</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+    
+                <li class="item" id="reg">Registracija</li>
+                <li class="item" id="odjava">Odjava</li>
+            </ul>
+        </div>
+    </body>
     
     <div id="glavna">
         <h1>Popis profesora</h1>

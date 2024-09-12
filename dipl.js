@@ -312,8 +312,36 @@ function brisanje(id){
         alert("odustali ste od brisanja");
     }
 }
+function prikaziStudentePoSemestru(semestar) {
+    const filteredStudents = lista.filter(student => student.semestar === semestar);
+    console.log(filteredStudents);
+    prikazstud(filteredStudents);
+}
+document.querySelectorAll('#semestar-options-dip li').forEach(option => {
+    option.addEventListener('click', function() {
+        const semestar = parseInt(this.getAttribute('value'), 10);
+        console.log(semestar);
+        prikaziStudentePoSemestru(semestar);
+    });
+});
+document.querySelectorAll('#preddip li').forEach(option => {
+    option.addEventListener('click', function() {
+        window.location="stranica.html";
+    });
+});
+function prikaziStudentePoSmjeru(smjer) {
+    const filteredStudents = lista.filter(student => student.studijski_smijer === smjer);
+    console.log(filteredStudents);
+    prikazstud(filteredStudents);
+}
 
-
+document.querySelectorAll('#smjer-options-dip li').forEach(option => {
+    option.addEventListener('click', function() {
+        const smjer = this.getAttribute('value');
+        console.log(smjer);
+        prikaziStudentePoSmjeru(smjer);
+    });
+});
 document.getElementById("reg").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location.href = 'registracija.html';
@@ -323,9 +351,9 @@ document.getElementById("popprof").addEventListener("click",(e)=>{
     e.preventDefault();
     window.location.href='profesori.html'
 })
-document.getElementById("popis").addEventListener("click",(e)=>{
+document.getElementById("preddip").addEventListener("click",(e)=>{
     e.preventDefault();
-    window.location.href = 'stranica.html';
+    window.location.href='stranica.html'
 })
 document.getElementById("odjava").addEventListener("click",(e)=>{
     e.preventDefault();

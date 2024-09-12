@@ -423,25 +423,37 @@ document.getElementById("spremiOcjenu").addEventListener("click", function() {
     var ocjena = document.getElementById("ocjena").value;
     var predmet = document.getElementById("predmet").textContent;
 
-    if (ocjena >= 1 && ocjena <= 5) {
+    if (ocjena >= 2 && ocjena <= 5) {
         alert("Ocjena za " + predmet + " je: " + ocjena);
         document.getElementById("unosOcjeneModal").style.display = "none";
+        let obj={
+            student_id:0,
+            predmet_id: 0,
+            ocjena:parseInt(ocjena),
+            ECTS:0
+        }
+        for(let i of predmeti){
+            if(i.naziv==predmet){
+                obj.predmet_id=i.id;
+                obj.ECTS=i.ECTS;
+            }
+        }
+        let pronaden=false;
+        for(let i of listocj){
+            if(i.predmet_id==obj.predmet_id){
+                i=obj;
+                pronaden=true;
+            }
+        }
+        if(pronaden!=true){
+            listocj.push(obj);
+
+        }
     } else {
         alert("Unesite ispravnu ocjenu (1-5).");
+        
     }
-    let obj={
-        student_id:0,
-        predmet_id: 0,
-        ocjena:parseInt(ocjena),
-        ECTS:0
-    }
-    for(let i of predmeti){
-        if(i.naziv==predmet){
-            obj.predmet_id=i.id;
-            obj.ECTS=i.ECTS;
-        }
-    }
-    listocj.push(obj);
+    
 });
 document.getElementById("unosd").addEventListener("click",(e)=>{
     e.preventDefault();

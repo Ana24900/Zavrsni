@@ -142,7 +142,7 @@ function ocjene(a){
     
                 let inputOcjena = document.createElement('input');
                 inputOcjena.type = 'number';
-                inputOcjena.min = '1';
+                inputOcjena.min = '2';
                 inputOcjena.max = '5';
                 inputOcjena.placeholder = 'Unesi ocjenu';
                 inputOcjena.id = "ocj";

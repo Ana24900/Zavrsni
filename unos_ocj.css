@@ -22,7 +22,16 @@ th {
 td {
     background-color: #f9f9f9;
 }
-
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.7rem;
+    color: #888888;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    margin-top: 100px;
+    text-align: center;
+    
+}
 td:first-child, th:first-child {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -40,16 +49,27 @@ td:last-child, th:last-child {
     color: #1d3d60;
 }
 
+
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 2000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    margin: 50px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .close {
@@ -66,18 +86,6 @@ td:last-child, th:last-child {
     cursor: pointer;
 }
 
-/* Osnovni stil za modal */
-.modal-content {
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 600px;
-    margin: 50px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Stil za zatvaranje modala */
 .close {
     float: right;
     font-size: 28px;
@@ -90,16 +98,14 @@ td:last-child, th:last-child {
     color: #007BFF;
 }
 
-
 .modal-content h2 {
-    text-align: center;
+    text-align: left;
     margin-bottom: 20px;
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
-    color: #888888; 
+    color: #888888;
     margin-bottom: 2rem;
     font-weight: bold;
-    
 }
 #predmetiLista {
     list-style: none;
